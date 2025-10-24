@@ -1,5 +1,6 @@
 import { FiChevronDown } from 'react-icons/fi';
 import SiteNavbar from "../layout/site-navbar";
+import resumeTemplate from "../../assets/resume-template.png";
 
 
 function FilterPill({ label }: { label: string }) {
@@ -11,25 +12,13 @@ function FilterPill({ label }: { label: string }) {
   );
 }
 
-function PaperMock() {
-  return (
-    <div className="absolute inset-6 rounded-lg bg-white shadow-xl">
-      <div className="absolute left-5 right-5 top-5 h-2 bg-neutral-300 rounded" />
-      <div className="absolute left-5 right-5 top-9 h-2 bg-neutral-300/70 rounded" />
-      <div className="absolute left-5 right-5 top-14 h-24 bg-neutral-200 rounded-md" />
-      <div className="absolute left-5 right-5 top-40 h-2 bg-neutral-300 rounded" />
-      <div className="absolute left-5 right-5 top-44 h-2 bg-neutral-300/70 rounded" />
-      <div className="absolute left-5 right-5 top-52 h-20 bg-neutral-200 rounded-md" />
-    </div>
-  );
-}
 
 function TemplateCard({ title, bg }: { title: string; bg: string }) {
   return (
-    <div>
-      <div className={`relative w-full aspect-[4/5] rounded-2xl ${bg} border border-white/10 shadow-[0_12px_40px_rgba(0,0,0,0.35)] overflow-hidden`}> 
+    <div className="w-full">
+      <div className={`relative w-full aspect-[4/5] rounded-2xl ${bg} border border-white/10 shadow-[0_12px_40px_rgba(0,0,0,0.35)] overflow-hidden`}>
         <div className="absolute inset-0 opacity-30 bg-gradient-to-br from-white/10 to-black/10" />
-        <PaperMock />
+        <img src={resumeTemplate} alt="Resume template preview" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[92%] w-auto rounded-lg object-contain bg-white shadow-xl" />
         <div className="absolute left-4 top-4 h-24 w-24 rounded-full bg-black/10 blur-2xl" />
       </div>
       <div className="mt-3 text-sm text-white/80">{title}</div>
@@ -51,12 +40,16 @@ export default function TemplatesScreen() {
     { title: 'Career Change', bg: 'bg-[#3a2f30]' },
   ];
 
+
   return (
     <div className="min-h-screen bg-[#0b1220] text-white">
       <SiteNavbar />
-      <main className="mx-auto max-w-7xl px-6">
-        <div className="flex items-center justify-between pt-10">
-          <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-white">Choose Your Template</h1>
+      <main className="mx-auto max-w-7xl px-6 pb-24">
+        <div className="flex items-start justify-between pt-10">
+          <div>
+            <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">Choose Your Template</h1>
+            <p className="mt-2 text-sm text-white/60">Explore our range of expertly crafted, ATS-friendly resume templates.</p>
+          </div>
           <div className="flex items-center gap-3">
             <FilterPill label="Style" />
             <FilterPill label="Industry" />
@@ -64,9 +57,10 @@ export default function TemplatesScreen() {
           </div>
         </div>
 
-        <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-10">
-          {cards.map((c) => (
-            <TemplateCard key={c.title} title={c.title} bg={c.bg} />
+        {/* Static grid of templates */}
+        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          {cards.map((c, i) => (
+            <TemplateCard key={`${c.title}-${i}`} title={c.title} bg={c.bg} />
           ))}
         </div>
       </main>

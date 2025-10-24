@@ -1,11 +1,22 @@
-import type { ReactNode } from "react";
-import { Wand2, LayoutGrid, Edit3, Check, Quote } from "lucide-react";
+import { useEffect, useState, type ReactNode } from "react";
+import { Wand2, LayoutGrid, ShieldCheck, Quote, Sparkles, ArrowRight, Video, ChevronUp } from "lucide-react";
 import SiteNavbar from "../layout/site-navbar";
-
+import SiteFooter from "../layout/site-footer";
+import { PricingSection } from "./pricing";
+import { TailoringSection } from "./tailoring";
+import { TemplatesShowingSection } from "./templates-showing";
 
 function Hero() {
+  const [entered, setEntered] = useState(false);
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setEntered(true));
+    return () => cancelAnimationFrame(id);
+  }, []);
   return (
-    <section className="px-6 pt-8">
+    <section
+      id="landing-hero"
+      className={`px-6 pt-8 transition-transform transition-opacity duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${entered ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"}`}
+    >
       <div className="relative max-w-4xl mx-auto rounded-2xl border border-white/10 overflow-hidden">
         <div
           className="absolute inset-0 opacity-70"
@@ -15,13 +26,20 @@ function Hero() {
           }}
         />
         <div className="relative p-8 lg:p-12 text-center bg-[#0f162a]">
-          <h1 className="text-3xl sm:text-4xl font-semibold">Craft a Resume That Gets You Hired</h1>
+          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight">Craft a Resume That Gets You Hired</h1>
           <p className="mt-3 text-white/70 max-w-2xl mx-auto">
             Our AI‑powered resume builder helps you create a professional resume in minutes. Stand out from the competition and land your dream job.
           </p>
-          <div className="mt-6 flex items-center justify-center gap-3">
-            <button className="rounded-full bg-[oklch(0.488_0.243_264.376)] px-5 py-2 text-white text-sm">Create My Resume</button>
-            <button className="rounded-full border border-white/12 px-5 py-2 text-white/80 hover:text-white text-sm">View Examples</button>
+          <div className="mt-6 flex items-center justify-center gap-4">
+            <a href="#signup" className="group rounded-xl bg-white px-5 py-2.5 text-[#0b1220] text-sm font-medium inline-flex items-center gap-2 shadow-[0_12px_40px_rgba(2,6,23,0.35)] hover:bg-white/95">
+              <Sparkles className="size-4" />
+              Start Free Today
+              <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+            </a>
+            <a href="#templates" className="h-11 px-5 rounded-xl bg-white/6 border border-white/12 text-white text-sm inline-flex items-center gap-2">
+              <LayoutGrid className="size-4" />
+              Browse Templates
+            </a>
           </div>
         </div>
       </div>
@@ -29,12 +47,12 @@ function Hero() {
   );
 }
 
-function SectionTitle({ title, subtitle }: { title: string; subtitle?: string }) {
+function SectionTitle({ title, subtitle, className }: { title: string; subtitle?: string; className?: string }) {
   return (
-    <div className="text-center">
-      <h2 className="text-xl font-semibold text-white">{title}</h2>
-      {subtitle ? <p className="mt-2 text-sm text-white/60 max-w-2xl mx-auto">{subtitle}</p> : null}
-    </div>
+    <header className="text-center">
+      <h2 className={`text-4xl md:text-4xl font-extrabold tracking-tight ${className ?? ""}`}>{title}</h2>
+      {subtitle && <p className="text-white/70 mt-2">{subtitle}</p>}
+    </header>
   );
 }
 
@@ -68,39 +86,20 @@ function Testimonial({ name, role, quote }: { name: string; role: string; quote:
   );
 }
 
-function PriceItem({ tier, price, features, cta, highlight = false }: { tier: string; price: string; features: string[]; cta: string; highlight?: boolean }) {
-  return (
-    <div className={`rounded-2xl p-5 border ${highlight ? "border-[oklch(0.488_0.243_264.376)/40] bg-[oklch(0.488_0.243_264.376)/10]" : "border-white/10 bg-[#0f162a]"}`}>
-      <div className="text-xs text-white/60">{tier}</div>
-      <div className="mt-1 text-2xl font-semibold">{price}<span className="text-xs font-normal text-white/50">/month</span></div>
-      <div className="mt-4 space-y-2 text-sm">
-        {features.map((f) => (
-          <div key={f} className="flex items-center gap-2 text-white/80">
-            <Check className="size-4 text-[oklch(0.488_0.243_264.376)]" /> {f}
-          </div>
-        ))}
-      </div>
-      <button className={`mt-5 w-full rounded-xl px-4 py-2 text-sm ${highlight ? "bg-[oklch(0.488_0.243_264.376)] text-white" : "border border-white/12 text-white/80 hover:text-white"}`}>{cta}</button>
-    </div>
-  );
-}
-
-function FooterBar() {
-  return (
-    <footer className="mt-16 border-t border-white/10">
-      <div className="max-w-[1100px] mx-auto px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm">
-        <div className="flex items-center gap-5 text-white/70">
-          <a href="#" className="hover:text-white">Terms</a>
-          <a href="#" className="hover:text-white">Privacy</a>
-          <a href="#" className="hover:text-white">Contact</a>
-        </div>
-        <div className="text-white/50">© 2024 ResumeAI. All rights reserved.</div>
-      </div>
-    </footer>
-  );
-}
-
 export default function LandingPageScreen() {
+  const [showTop, setShowTop] = useState(false);
+
+  useEffect(() => {
+    const hero = document.getElementById("landing-hero");
+    if (!hero) return;
+    const io = new IntersectionObserver(
+      ([entry]) => setShowTop(!entry.isIntersecting),
+      { threshold: 0.05 }
+    );
+    io.observe(hero);
+    return () => io.disconnect();
+  }, []);
+
   return (
     <div className="min-h-svh bg-[#0b1220] text-white">
       <SiteNavbar />
@@ -108,13 +107,18 @@ export default function LandingPageScreen() {
 
       {/* Key Features */}
       <section className="max-w-[1100px] mx-auto px-6 mt-14">
-        <SectionTitle title="Key Features" subtitle="Our platform offers a range of features designed to help you create a standout resume." />
+        <SectionTitle title="Key Features" subtitle="Our platform offers a range of features designed to help you create a standout resume." className="font-extrabold" />
         <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
           <FeatureCard icon={<Wand2 className="size-5" />} title="AI‑Powered Content Generation" desc="Let our AI suggest improvements and tailor your resume to specific job descriptions." />
           <FeatureCard icon={<LayoutGrid className="size-5" />} title="Customizable Templates" desc="Choose from a variety of professionally designed templates to match your style." />
-          <FeatureCard icon={<Edit3 className="size-5" />} title="Quick and Easy Editing" desc="Our intuitive interface makes it easy to update and refine your resume on the go." />
+          <FeatureCard icon={<ShieldCheck className="size-5" />} title="ATS Score & Compatibility" desc="Analyze your resume against ATS criteria and get actionable fixes." />
         </div>
       </section>
+
+      {/* Templates Showing */}
+      <div className="mt-16">
+        <TemplatesShowingSection />
+      </div>
 
       {/* Testimonials */}
       <section className="max-w-[1100px] mx-auto px-6 mt-16">
@@ -126,17 +130,28 @@ export default function LandingPageScreen() {
         </div>
       </section>
 
-      {/* Pricing */}
-      <section className="max-w-[1100px] mx-auto px-6 mt-16">
-        <SectionTitle title="Choose Your Plan" subtitle="Start for free, and upgrade when you're ready." />
-        <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-          <PriceItem tier="Basic" price="Free" features={["Limited templates", "Basic AI suggestions", "Standard support"]} cta="Get Started" />
-          <PriceItem tier="Premium" price="$19" features={["Unlimited templates", "Advanced AI suggestions", "Priority support"]} cta="Upgrade Now" highlight />
-          <PriceItem tier="Professional" price="$39" features={["All premium features", "Dedicated resume consultant", "24/7 support"]} cta="Upgrade Now" />
-        </div>
-      </section>
+      {/* Tailoring */}
+      <div className="mt-16">
+        <TailoringSection />
+      </div>
 
-      <FooterBar />
+      {/* Pricing: use the dedicated pricing section */}
+      <div className="mt-16">
+        <PricingSection />
+      </div>
+
+      <div className="mt-16">
+        <SiteFooter />
+      </div>
+
+      {/* Back to Top button */}
+      <button
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        aria-label="Back to top"
+        className={`fixed bottom-5 right-5 z-50 h-10 w-10 rounded-full bg-[oklch(0.488_0.243_264.376)] hover:bg-[oklch(0.58_0.24_264.376)] text-white shadow-[0_12px_40px_rgba(2,6,23,0.35)] border border-white/10 grid place-items-center transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/30 ${showTop ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2 pointer-events-none"}`}
+      >
+        <ChevronUp className="size-4" />
+      </button>
     </div>
   );
 }

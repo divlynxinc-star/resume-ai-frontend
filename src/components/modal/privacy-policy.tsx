@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import SiteNavbar from "../layout/site-navbar";
 
 function Sidebar() {
@@ -68,6 +69,9 @@ function Content() {
 }
 
 export default function PrivacyPolicyScreen() {
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, []);
   return (
     <div className="min-h-svh bg-[#0B1220] text-white">
       <SiteNavbar />

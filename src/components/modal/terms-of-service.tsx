@@ -1,4 +1,5 @@
 import SiteNavbar from "../layout/site-navbar";
+import { useEffect } from "react";
 
 import type { ReactNode } from 'react';
 function TermItem({ number, title, children }: { number: number; title: string; children: ReactNode }) {
@@ -19,6 +20,9 @@ function TermItem({ number, title, children }: { number: number; title: string; 
 }
 
 export default function TermsOfServiceScreen() {
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, []);
   return (
     <div className="min-h-screen bg-[#0b1220] text-white">
       <SiteNavbar />

@@ -90,14 +90,11 @@ function Hero() {
   );
 }
 
-export default function TailoringScreen() {
+export function TailoringSection() {
   return (
-    <div className="min-h-svh bg-[#0b1220] text-white">
-      <SiteNavbar />
-
-      <main className="mx-auto max-w-[1100px] px-6 pb-16">
-        <Hero />
-
+    <>
+      <Hero />
+      <div className="mx-auto max-w-[1100px] px-6 pb-16">
         {/* Steps */}
         <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <StepCard
@@ -145,6 +142,18 @@ export default function TailoringScreen() {
             ]}
           />
         </div>
+      </div>
+    </>
+  );
+}
+
+export default function TailoringScreen() {
+  return (
+    <div className="min-h-svh bg-[#0b1220] text-white">
+      <SiteNavbar />
+
+      <main>
+        <TailoringSection />
       </main>
     </div>
   );

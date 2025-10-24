@@ -55,7 +55,15 @@ function PlanCard({ title, price, subtitle, button, features, highlight, label }
           {title === "Pro" && "For serious career builders."}
           {title === "Enterprise" && "For teams and organizations."}
         </p>
-        <button className={`mt-5 w-full rounded-lg px-4 py-3 text-sm font-medium ${highlight ? "bg-sky-500 text-white hover:bg-sky-400" : "bg-[#0C1426] text-white hover:bg-[#0D172B] border border-white/12"}`}>
+        <button
+          onClick={() => {
+            try {
+              sessionStorage.setItem("selectedPlan", JSON.stringify({ title, price, subtitle }));
+            } catch {}
+            window.location.hash = "subscribe";
+          }}
+          className={`mt-5 w-full rounded-lg px-4 py-3 text-sm font-medium ${highlight ? "bg-sky-500 text-white hover:bg-sky-400" : "bg-[#0C1426] text-white hover:bg-[#0D172B] border border-white/12"}`}
+        >
           {button}
         </button>
         <ul className="mt-5 space-y-2 text-sm">
@@ -71,68 +79,73 @@ function PlanCard({ title, price, subtitle, button, features, highlight, label }
   );
 }
 
+export function PricingSection() {
+  return (
+    <section className="mx-auto max-w-6xl px-4 pt-12 pb-20">
+      <div className="flex items-center gap-3">
+        <Badge>PAY AS YOU GROW</Badge>
+        <Badge>CREDIT-BASED</Badge>
+      </div>
+      <h1 className="mt-6 text-4xl md:text-6xl font-extrabold tracking-tight">Intelligent Pricing for Your Success</h1>
+      <p className="mt-3 max-w-3xl text-white/70">
+        Our AI-powered platform operates on a credit system, ensuring you only pay for the features you actually use. Start for free and scale up as your career grows.
+      </p>
+
+      <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <StatCard value="50" label="AI Credits" />
+        <StatCard value="200+" label="Templates" />
+        <StatCard value="48h" label="Support" />
+        <StatCard value="10k+" label="Happy Users" />
+      </div>
+
+      <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-5">
+        <PlanCard
+          title="Free"
+          price="$0"
+          subtitle="/ forever"
+          button="Get Started"
+          features={["5 AI Credits", "Basic Templates", "Standard Support"]}
+        />
+        <PlanCard
+          title="Starter"
+          price="$9"
+          subtitle="/ 50 credits"
+          button="Choose Starter"
+          features={["50 AI Credits", "All Templates", "Priority Support"]}
+        />
+        <PlanCard
+          title="Premium"
+          price="$29"
+          subtitle="/ 200 credits"
+          button="Choose Premium"
+          features={["200 AI Credits", "AI Cover Letters", "Premium Support"]}
+          highlight
+          label="Most Popular"
+        />
+        <PlanCard
+          title="Pro"
+          price="$49"
+          subtitle="/ 500 credits"
+          button="Choose Pro"
+          features={["500 AI Credits", "Interview Prep Module", "24/7 VIP Support"]}
+        />
+        <PlanCard
+          title="Enterprise"
+          price="Custom"
+          subtitle={undefined}
+          button="Contact Sales"
+          features={["Custom Credit Pool", "Team Management", "Dedicated Account Manager"]}
+        />
+      </div>
+    </section>
+  );
+}
+
 export default function PricingScreen() {
   return (
     <div className="min-h-screen w-full bg-[#0B1220] text-white">
       <SiteNavbar />
-
-      <section className="mx-auto max-w-6xl px-4 pt-12">
-        <div className="flex items-center gap-3">
-          <Badge>PAY AS YOU GROW</Badge>
-          <Badge>CREDIT-BASED</Badge>
-        </div>
-        <h1 className="mt-6 text-4xl sm:text-5xl font-semibold">Intelligent Pricing for Your Success</h1>
-        <p className="mt-3 max-w-3xl text-white/70">
-          Our AI-powered platform operates on a credit system, ensuring you only pay for the features you actually use. Start for free and scale up as your career grows.
-        </p>
-
-        <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <StatCard value="50" label="AI Credits" />
-          <StatCard value="200+" label="Templates" />
-          <StatCard value="48h" label="Support" />
-          <StatCard value="10k+" label="Happy Users" />
-        </div>
-
-        <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-5">
-          <PlanCard
-            title="Free"
-            price="$0"
-            subtitle="/ forever"
-            button="Get Started"
-            features={["5 AI Credits", "Basic Templates", "Standard Support"]}
-          />
-          <PlanCard
-            title="Starter"
-            price="$9"
-            subtitle="/ 50 credits"
-            button="Choose Starter"
-            features={["50 AI Credits", "All Templates", "Priority Support"]}
-          />
-          <PlanCard
-            title="Premium"
-            price="$29"
-            subtitle="/ 200 credits"
-            button="Choose Premium"
-            features={["200 AI Credits", "AI Cover Letters", "Premium Support"]}
-            highlight
-            label="Most Popular"
-          />
-          <PlanCard
-            title="Pro"
-            price="$49"
-            subtitle="/ 500 credits"
-            button="Choose Pro"
-            features={["500 AI Credits", "Interview Prep Module", "24/7 VIP Support"]}
-          />
-          <PlanCard
-            title="Enterprise"
-            price="Custom"
-            subtitle={undefined}
-            button="Contact Sales"
-            features={["Custom Credit Pool", "Team Management", "Dedicated Account Manager"]}
-          />
-        </div>
-      </section>
+      <PricingSection />
     </div>
   );
 }

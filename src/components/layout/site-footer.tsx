@@ -1,9 +1,11 @@
+import resumeLogo from "../../assets/resume-ai-logo.png";
+
 function Brand() {
   return (
     <div>
       <div className="flex items-center gap-3">
-        <div className="size-6 rounded-md bg-[oklch(0.488_0.243_264.376)]" />
-        <span className="text-white font-semibold">ResumeCraft</span>
+        <img src={resumeLogo} alt="ResumeCraft AI Logo" className="h-14 w-14 rounded-md" />
+        <span className="text-white font-semibold">ResumeCraft AI</span>
       </div>
       <p className="text-white/70 text-sm mt-3 max-w-[280px]">
         AI-powered resume builder to help you create professional resumes in minutes.
@@ -24,7 +26,11 @@ function Column({ title, links }: { title: string; links: { label: string; href?
       <ul className="mt-3 space-y-2">
         {links.map((l) => (
           <li key={l.label}>
-            <a href={l.href ?? "#"} className="text-white/70 hover:text-white text-sm">
+            <a
+              href={l.href ?? "#"}
+              onClick={() => window.scrollTo({ top: 0, behavior: "auto" })}
+              className="text-white/70 hover:text-white text-sm"
+            >
               {l.label}
             </a>
           </li>
@@ -42,28 +48,28 @@ export default function SiteFooter() {
         <Column
           title="PRODUCT"
           links={[
-            { label: "Features" },
-            { label: "Pricing" },
-            { label: "Templates" },
-            { label: "Dashboard" },
+            { label: "Features", href: "#home" },
+            { label: "Pricing", href: "#pricing" },
+            { label: "Templates", href: "#templates" },
+            { label: "Dashboard", href: "#dashboard" },
           ]}
         />
         <Column
           title="SUPPORT"
           links={[
-            { label: "Help Center" },
-            { label: "Contact Us" },
-            { label: "Documentation" },
-            { label: "FAQ" },
+            { label: "Help Center", href: "#help-center" },
+            { label: "Contact Us", href: "#contact-us" },
+            { label: "Documentation", href: "#documentation" },
+            { label: "FAQ", href: "#faq" },
           ]}
         />
         <Column
           title="LEGAL"
           links={[
-            { label: "Privacy Policy" },
-            { label: "Terms of Service" },
-            { label: "Cookie Policy" },
-            { label: "Security" },
+            { label: "Privacy Policy", href: "#privacy" },
+            { label: "Terms of Service", href: "#terms" },
+            { label: "Cookie Policy", href: "#cookie-policy" },
+            { label: "Security", href: "#security" },
           ]}
         />
       </div>
