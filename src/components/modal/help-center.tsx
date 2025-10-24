@@ -1,39 +1,8 @@
 import { useState } from "react";
 import type { ReactNode } from "react";
 import { Search, User, Edit3, LayoutGrid, Wrench, CreditCard, Zap } from "lucide-react";
+import SiteNavbar from "../layout/site-navbar";
 
-function TopNav() {
-  const Link = ({ label, active = false }: { label: string; active?: boolean }) => (
-    <a
-      href="#"
-      className={`relative h-10 px-3 rounded-md text-sm flex items-center border transition-colors ${
-        active
-          ? "text-white bg-white/5 border-white/20 after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-[oklch(0.488_0.243_264.376)]"
-          : "text-white/80 hover:text-white border-transparent hover:bg-white/5"
-      }`}
-    >
-      {label}
-    </a>
-  );
-
-  return (
-    <div className="h-14 flex items-center justify-between px-6 border-b border-white/10">
-      <div className="flex items-center gap-3">
-        <div className="size-5 rounded-md bg-[oklch(0.488_0.243_264.376)]" />
-        <span className="text-white font-semibold">ResumeAI</span>
-      </div>
-      <div className="flex items-center gap-6">
-        <Link label="Dashboard" />
-        <Link label="Templates" />
-        <Link label="My Resumes" />
-        <Link label="Help Center" active />
-      </div>
-      <div className="flex items-center gap-3">
-        <div className="size-8 rounded-full bg-white/10 border border-white/20" />
-      </div>
-    </div>
-  );
-}
 
 function PageTitle({ title, subtitle }: { title: string; subtitle: string }) {
   return (
@@ -115,7 +84,7 @@ export default function HelpCenterScreen() {
 
   return (
     <div className="min-h-svh bg-[#0b1220] text-white">
-      <TopNav />
+      <SiteNavbar />
       <main className="max-w-[1100px] mx-auto px-6 py-8">
         <PageTitle title="Help Center & Knowledge Base" subtitle="Your guide to mastering ResumeAI" />
 

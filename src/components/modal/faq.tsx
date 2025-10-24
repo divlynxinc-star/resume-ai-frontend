@@ -1,29 +1,4 @@
-function TopNav() {
-  const Link = ({ label }: { label: string }) => (
-    <a href="#" className="text-white/80 hover:text-white text-sm">
-      {label}
-    </a>
-  );
-
-  return (
-    <div className="h-14 flex items-center justify-between px-6 border-b border-white/10">
-      <div className="flex items-center gap-3">
-        <div className="size-5 rounded-md bg-[oklch(0.488_0.243_264.376)]" />
-        <span className="text-white font-semibold">ResumeCraft</span>
-      </div>
-      <div className="flex items-center gap-6">
-        <Link label="Templates" />
-        <Link label="Examples" />
-        <Link label="Pricing" />
-        <Link label="About" />
-      </div>
-      <div className="flex items-center gap-3">
-        <button className="h-9 px-3 rounded-full bg-[oklch(0.488_0.243_264.376)] text-white text-sm">New resume</button>
-        <button className="h-9 px-3 rounded-full border border-white/12 text-white/80 hover:text-white text-sm">Log in</button>
-      </div>
-    </div>
-  );
-}
+import SiteNavbar from "../layout/site-navbar";
 
 function SearchBar() {
   return (
@@ -88,7 +63,7 @@ export default function FAQScreen() {
 
   return (
     <div className="min-h-svh bg-[#0b1220] text-white">
-      <TopNav />
+      <SiteNavbar />
       <main className="max-w-[1100px] mx-auto px-6 py-12">
         <h1 className="text-3xl sm:text-5xl font-bold text-center">Frequently Asked Questions</h1>
         <p className="text-white/70 text-center mt-2">Find answers to the most common questions about ResumeCraft.</p>

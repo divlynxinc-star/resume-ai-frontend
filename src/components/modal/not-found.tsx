@@ -1,24 +1,5 @@
-function TopNav() {
-  return (
-    <div className="h-16 flex items-center justify-between px-6">
-      <div className="flex items-center gap-3">
-        <div className="size-5 rounded-md bg-[oklch(0.488_0.243_264.376)]" />
-        <span className="text-white font-semibold">ResumeAI</span>
-      </div>
-      <div className="flex items-center gap-6 text-white/80">
-        <a href="#" className="hover:text-white">Templates</a>
-        <a href="#" className="hover:text-white">Examples</a>
-        <a href="#" className="hover:text-white">Pricing</a>
-      </div>
-      <div className="flex items-center gap-4">
-        <button className="rounded-full bg-[oklch(0.488_0.243_264.376)] text-white px-4 py-2 text-sm shadow-md shadow-[oklch(0.488_0.243_264.376)/30]">
-          New Resume
-        </button>
-        <div className="size-8 rounded-full bg-white/20 border border-white/30" />
-      </div>
-    </div>
-  );
-}
+import SiteNavbar from "../layout/site-navbar";
+
 
 function ArtBoard() {
   return (
@@ -42,7 +23,7 @@ function ArtBoard() {
 export default function NotFound() {
   return (
     <div className="min-h-svh bg-[#0b1220] text-white">
-      <TopNav />
+      <SiteNavbar />
       <main className="px-4">
         <div className="mt-6">
           <ArtBoard />

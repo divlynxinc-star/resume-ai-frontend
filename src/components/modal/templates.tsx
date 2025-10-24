@@ -1,29 +1,6 @@
 import { FiChevronDown } from 'react-icons/fi';
+import SiteNavbar from "../layout/site-navbar";
 
-function TopNav() {
-  return (
-    <div className="sticky top-0 z-30 w-full bg-[#0b1220]/80 backdrop-blur supports-[backdrop-filter]:bg-[#0b1220]/60 border-b border-white/5">
-      <div className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="h-6 w-6 rounded-md bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-md">
-            <div className="h-3 w-3 bg-white/90 rounded-sm" />
-          </div>
-          <span className="text-white/90 font-semibold tracking-wide">ResumeCraft</span>
-        </div>
-        <div className="hidden md:flex items-center gap-8 text-sm">
-          <a className="text-white/80 hover:text-white transition" href="#">Templates</a>
-          <a className="text-white/60 hover:text-white transition" href="#">Examples</a>
-          <a className="text-white/60 hover:text-white transition" href="#">Pricing</a>
-          <a className="text-white/60 hover:text-white transition" href="#">About</a>
-        </div>
-        <div className="flex items-center gap-3">
-          <button className="px-3 py-1.5 rounded-lg text-sm text-white/80 border border-white/10 hover:bg-white/5 transition">Log In</button>
-          <button className="px-3 md:px-4 py-1.5 rounded-lg text-sm font-medium bg-blue-600 hover:bg-blue-500 text-white shadow-[0_8px_30px_rgba(59,130,246,0.35)]">New Resume</button>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 function FilterPill({ label }: { label: string }) {
   return (
@@ -76,7 +53,7 @@ export default function TemplatesScreen() {
 
   return (
     <div className="min-h-screen bg-[#0b1220] text-white">
-      <TopNav />
+      <SiteNavbar />
       <main className="mx-auto max-w-7xl px-6">
         <div className="flex items-center justify-between pt-10">
           <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-white">Choose Your Template</h1>

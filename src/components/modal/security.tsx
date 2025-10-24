@@ -1,28 +1,6 @@
 import type { ReactNode } from "react";
 import { FiLock, FiShield, FiUser, FiKey } from "react-icons/fi";
-
-function TopNav() {
-  return (
-    <div className="sticky top-0 z-10 w-full bg-[#0B1220]/80 backdrop-blur border-b border-white/10">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
-        <div className="flex items-center gap-3">
-          <div className="size-6 rotate-45 rounded-md bg-[oklch(0.488_0.243_264.376)]" />
-          <span className="text-white font-semibold">ResumeAI</span>
-        </div>
-        <nav className="hidden sm:flex items-center gap-8 text-sm">
-          <a href="#" className="text-white/70 hover:text-white">Dashboard</a>
-          <a href="#" className="text-white/70 hover:text-white">Templates</a>
-          <a href="#" className="text-white/70 hover:text-white">Examples</a>
-          <a href="#" className="text-white/90 font-medium hover:text-white">Pricing</a>
-        </nav>
-        <div className="flex items-center gap-3">
-          <button className="rounded-full bg-[oklch(0.61_0.22_246.5)] px-4 py-2 text-sm text-white hover:bg-[oklch(0.61_0.22_246.5)]/90">New Resume</button>
-          <div className="size-8 rounded-full bg-white/10 border border-white/10" />
-        </div>
-      </div>
-    </div>
-  );
-}
+import SiteNavbar from "../layout/site-navbar";
 
 function FeatureCard({ icon, title, description }: { icon: ReactNode; title: string; description: string }) {
   return (
@@ -53,7 +31,7 @@ function CTABanner() {
 export default function SecurityScreen() {
   return (
     <div className="min-h-screen w-full bg-[#0B1220] text-white">
-      <TopNav />
+      <SiteNavbar />
 
       <section className="mx-auto max-w-6xl px-4 pt-12">
         <h1 className="text-center text-4xl sm:text-5xl font-semibold">Security at its Core</h1>

@@ -1,38 +1,6 @@
 import type { ReactNode } from "react";
+import SiteNavbar from "../layout/site-navbar";
 
-function TopNav() {
-  const Link = ({ label, active = false }: { label: string; active?: boolean }) => (
-    <a
-      href="#"
-      className={`relative h-10 px-3 rounded-md text-sm flex items-center border transition-colors ${
-        active
-          ? "text-white bg-white/5 border-white/20 after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-[oklch(0.488_0.243_264.376)]"
-          : "text-white/80 hover:text-white border-transparent hover:bg-white/5"
-      }`}
-    >
-      {label}
-    </a>
-  );
-
-  return (
-    <div className="h-14 flex items-center justify-between px-6 border-b border-white/10">
-      <div className="flex items-center gap-3">
-        <div className="size-5 rounded-md bg-[oklch(0.488_0.243_264.376)]" />
-        <span className="text-white font-semibold">ResumeAI</span>
-      </div>
-      <div className="flex items-center gap-6">
-        <Link label="My Resumes" />
-        <Link label="Templates" />
-        <Link label="AI Assistant" active />
-        <Link label="Career Advice" />
-      </div>
-      <div className="flex items-center gap-3">
-        <div className="size-8 rounded-full bg-white/10 border border-white/20" />
-        <div className="size-8 rounded-full bg-teal-500/20 border border-teal-500/30" />
-      </div>
-    </div>
-  );
-}
 
 function SectionHeading({ children }: { children: ReactNode }) {
   return <h2 className="text-white/80 font-semibold text-sm">{children}</h2>;
@@ -120,7 +88,7 @@ function ChatPanel() {
 export default function AIChatModal() {
   return (
     <div className="h-svh bg-[#0b1220] text-white overflow-hidden">
-      <TopNav />
+      <SiteNavbar />
       <main className="max-w-[1100px] mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-3 gap-8 h-[calc(100vh-56px)] overflow-hidden">
         {/* Left: Assistant title, prompts, output */}
         <div className="lg:col-span-2 h-full min-h-0 flex flex-col">

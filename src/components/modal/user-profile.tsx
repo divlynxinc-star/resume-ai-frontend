@@ -1,32 +1,7 @@
 import { useState } from 'react';
 import type { ReactNode } from 'react';
+import SiteNavbar from "../layout/site-navbar";
 
-function TopNav() {
-  return (
-    <div className="sticky top-0 z-30 w-full bg-[#0b1220]/80 backdrop-blur supports-[backdrop-filter]:bg-[#0b1220]/60 border-b border-white/5">
-      <div className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="h-6 w-6 rounded-md bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-md">
-            <div className="h-3 w-3 bg-white/90 rounded-sm" />
-          </div>
-          <span className="text-white/90 font-semibold tracking-wide">ResumeAI</span>
-        </div>
-        <div className="hidden md:flex items-center gap-8 text-sm">
-          <a className="text-white/80 hover:text-white transition" href="#">Dashboard</a>
-          <a className="text-white/80 hover:text-white transition" href="#">Templates</a>
-          <a className="text-white/80 hover:text-white transition" href="#">My Resumes</a>
-          <a className="text-white/60 hover:text-white transition" href="#">Cover Letters</a>
-        </div>
-        <div className="flex items-center gap-3">
-          <div className="h-8 w-8 rounded-full bg-white/10 ring-1 ring-white/10 flex items-center justify-center">
-            <span className="text-white/70 text-xs">?</span>
-          </div>
-          <div className="h-8 w-8 rounded-full bg-white/10 ring-1 ring-white/10" />
-        </div>
-      </div>
-    </div>
-  );
-}
 
 function SectionCard({ children }: { children: ReactNode }) {
   return (
@@ -53,7 +28,7 @@ export default function UserProfileScreen() {
 
   return (
     <div className="min-h-screen bg-[#0b1220] text-white">
-      <TopNav />
+      <SiteNavbar />
 
       <main className="mx-auto max-w-3xl px-6 pb-12">
         <section className="pt-10">

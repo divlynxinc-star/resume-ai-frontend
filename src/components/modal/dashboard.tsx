@@ -7,15 +7,13 @@ import {
   Settings,
   HelpCircle,
   MessagesSquare,
-  Search,
-  Bell,
-  User2,
   LogOut,
   Rocket,
   Edit2,
   Download,
   Trash,
 } from "lucide-react";
+import SiteNavbar from "../layout/site-navbar";
 
 function Sidebar() {
   return (
@@ -61,29 +59,6 @@ function NavItem({ icon, label, active = false }: { icon: ReactNode; label: stri
   );
 }
 
-function Header() {
-  return (
-    <header className="h-16 border-b border-white/10 bg-[#0b1220]/95 backdrop-blur flex items-center justify-between px-6">
-      <div className="flex items-center gap-3 w-[480px]">
-        <div className="relative w-full">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-white/40" />
-          <input
-            placeholder="Search..."
-            className="w-full rounded-xl bg-white/5 pl-9 pr-3 py-2.5 text-white/80 outline-none border border-white/10 focus:border-white/20"
-          />
-        </div>
-      </div>
-      <div className="flex items-center gap-4">
-        <button className="rounded-xl p-2.5 bg-white/5 border border-white/10 text-white/70 hover:text-white">
-          <Bell className="size-4" />
-        </button>
-        <div className="size-9 rounded-full bg-white/10 border border-white/20 grid place-items-center">
-          <User2 className="size-5 text-white/70" />
-        </div>
-      </div>
-    </header>
-  );
-}
 
 function HeroCard() {
   return (
@@ -178,18 +153,18 @@ function PromoBanner() {
   );
 }
 
-export default function Dashboard() {
+export default function DashboardModal() {
   return (
-    <div className="min-h-svh bg-[#0b1220] text-white grid grid-cols-[16rem_1fr]">
-      <Sidebar />
-      <div className="flex flex-col">
-        <Header />
-        <main className="px-6 py-6 space-y-6">
+    <div className="h-svh bg-[#0b1220] text-white overflow-hidden">
+      <SiteNavbar />
+      <div className="grid grid-cols-[260px_1fr] h-[calc(100vh-56px)]">
+        <Sidebar />
+        <div className="px-6 py-6 space-y-6">
           <HeroCard />
           <FeatureCards />
           <RecentActivity />
           <PromoBanner />
-        </main>
+        </div>
       </div>
     </div>
   );

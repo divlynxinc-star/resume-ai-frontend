@@ -6,31 +6,8 @@ import {
   Download,
   CheckCircle2,
 } from "lucide-react";
+import SiteNavbar from "../layout/site-navbar";
 
-function TopNav() {
-  return (
-    <div className="sticky top-0 z-30 w-full bg-[#0b1220]/80 backdrop-blur supports-[backdrop-filter]:bg-[#0b1220]/60 border-b border-white/5">
-      <div className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="h-6 w-6 rounded-md bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-md">
-            <div className="h-3 w-3 bg-white/90 rounded-sm" />
-          </div>
-          <span className="text-white/90 font-semibold tracking-wide">ResumeCraft</span>
-        </div>
-        <div className="hidden md:flex items-center gap-8 text-sm">
-          <a className="text-white/80 hover:text-white transition" href="#">Dashboard</a>
-          <a className="text-white/80 hover:text-white transition" href="#">Templates</a>
-          <a className="text-white/80 hover:text-white transition" href="#">Examples</a>
-          <a className="text-white/80 hover:text-white transition" href="#">Pricing</a>
-        </div>
-        <div className="flex items-center gap-3">
-          <button className="px-3 md:px-4 py-1.5 rounded-lg text-sm font-medium bg-blue-600 hover:bg-blue-500 text-white shadow-[0_8px_30px_rgba(59,130,246,0.35)]">New Resume</button>
-          <div className="h-8 w-8 rounded-full bg-white/10 ring-1 ring-white/10" />
-        </div>
-      </div>
-    </div>
-  );
-}
 
 function IconWrap({ children }: { children: ReactNode }) {
   return (
@@ -116,7 +93,7 @@ function Hero() {
 export default function TailoringScreen() {
   return (
     <div className="min-h-svh bg-[#0b1220] text-white">
-      <TopNav />
+      <SiteNavbar />
 
       <main className="mx-auto max-w-[1100px] px-6 pb-16">
         <Hero />
