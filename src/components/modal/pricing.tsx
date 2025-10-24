@@ -30,16 +30,29 @@ type PlanProps = {
   features: string[];
   highlight?: boolean;
   label?: string;
+  labelClassName?: string;
+  pop?: boolean;
+  popMode?: "hover" | "always";
 };
 
-function PlanCard({ title, price, subtitle, button, features, highlight, label }: PlanProps) {
+function PlanCard({ title, price, subtitle, button, features, highlight, label, labelClassName, pop, popMode }: PlanProps) {
+  const isAlways = pop && popMode === "always";
   return (
-    <div className={
-      `relative ${highlight ? "rounded-[26px] p-1 bg-gradient-to-b from-sky-500/40 to-cyan-500/40" : ""}`
-    }>
-      <div className={`relative rounded-2xl bg-[#0F1629] border border-white/10 px-6 py-6 h-full ${highlight ? "shadow-[0_0_40px_0_rgba(56,189,248,0.25)]" : ""}`}>
+    <div
+      className={`relative group transition-transform duration-200 ${
+        highlight ? "rounded-[26px] p-1 bg-gradient-to-b from-sky-500/40 to-cyan-500/40" : ""
+      } ${pop ? (isAlways ? "-translate-y-0.5 scale-[1.02]" : "hover:-translate-y-0.5 hover:scale-[1.02]") : ""}`}
+    >
+      {pop ? (
+        <div className={`pointer-events-none absolute -inset-3 rounded-[28px] bg-[radial-gradient(ellipse_at_center,rgba(56,189,248,0.18),transparent_60%)] blur-2xl ${isAlways ? "opacity-100" : "opacity-0 group-hover:opacity-100"} transition-opacity`} />
+      ) : null}
+      <div
+        className={`relative rounded-2xl bg-[#0F1629] border border-white/10 px-6 py-6 h-full ${
+          highlight ? "shadow-[0_0_40px_0_rgba(56,189,248,0.25)]" : ""
+        } ${pop ? (isAlways ? "ring-1 ring-cyan-400/40 shadow-[0_18px_50px_rgba(56,189,248,0.35)]" : "ring-1 ring-white/10 group-hover:ring-cyan-400/40 group-hover:shadow-[0_18px_50px_rgba(56,189,248,0.35)]") : ""}`}
+      >
         {label ? (
-          <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-sky-500 text-white text-xs px-3 py-1 shadow">
+          <div className={`absolute -top-3 left-1/2 -translate-x-1/2 rounded-full text-xs px-3 py-1 ${labelClassName ?? "bg-sky-500 text-white shadow"}`}>
             {label}
           </div>
         ) : null}
@@ -93,9 +106,9 @@ export function PricingSection() {
 
       <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard value="50" label="AI Credits" />
-        <StatCard value="200+" label="Templates" />
-        <StatCard value="48h" label="Support" />
-        <StatCard value="10k+" label="Happy Users" />
+        <StatCard value="12+" label="ATS Friendly Templates" />
+        <StatCard value="24h" label="Client Support" />
+        <StatCard value="1k+" label="Satisfied Customers" />
       </div>
 
       <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-5">
@@ -105,17 +118,21 @@ export function PricingSection() {
           subtitle="/ forever"
           button="Get Started"
           features={["5 AI Credits", "Basic Templates", "Standard Support"]}
+          label="Head Start"
+          labelClassName="bg-white text-[#0b1220] font-bold shadow-[0_8px_20px_rgba(255,255,255,0.25)] border border-white/20"
+          pop
+          popMode="always"
         />
         <PlanCard
           title="Starter"
-          price="$9"
+          price="$9.99"
           subtitle="/ 50 credits"
           button="Choose Starter"
           features={["50 AI Credits", "All Templates", "Priority Support"]}
         />
         <PlanCard
           title="Premium"
-          price="$29"
+          price="$29.99"
           subtitle="/ 200 credits"
           button="Choose Premium"
           features={["200 AI Credits", "AI Cover Letters", "Premium Support"]}
@@ -124,7 +141,7 @@ export function PricingSection() {
         />
         <PlanCard
           title="Pro"
-          price="$49"
+          price="$49.99"
           subtitle="/ 500 credits"
           button="Choose Pro"
           features={["500 AI Credits", "Interview Prep Module", "24/7 VIP Support"]}

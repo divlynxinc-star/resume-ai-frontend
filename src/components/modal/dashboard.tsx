@@ -138,7 +138,7 @@ function FeatureCard({ icon, title, desc, dot, onClick }: { icon: ReactNode; tit
   return (
     <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-white hover:bg-white/[0.06] cursor-pointer" onClick={onClick}>
       <div className="flex items-center gap-3">
-        <div className="size-9 rounded-lg bg-white/10 grid place-items-center">
+        <div className="size-10 rounded-full bg-[#0f162a] border border-cyan-400/30 text-cyan-400 shadow-[0_0_24px_rgba(56,189,248,0.18)] grid place-items-center">
           {icon}
         </div>
         <div className="flex-1 min-w-0">

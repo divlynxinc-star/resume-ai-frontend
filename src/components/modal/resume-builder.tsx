@@ -355,7 +355,8 @@ function CustomSectionsForm({ resume, setResume }: { resume: ResumeData; setResu
 
 function AIAssistantCard() {
   return (
-    <div className="rounded-2xl bg-white/5 border border-white/10 p-6">
+    <div className="relative rounded-2xl bg-white/5 border border-white/10 p-6">
+      <span className="absolute -top-2 -right-2 rounded-full bg-blue-600/20 text-blue-300 text-[10px] font-semibold px-2 py-1 border border-blue-500/40 shadow-[0_6px_16px_rgba(59,130,246,0.35)]">FEATURED</span>
       <div className="flex items-center gap-2">
         <Wand2 className="size-4 text-white/80" />
         <div className="font-semibold">AI Assistant</div>

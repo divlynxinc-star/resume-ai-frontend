@@ -51,14 +51,18 @@ function SectionTitle({ title, subtitle, className }: { title: string; subtitle?
   return (
     <header className="text-center">
       <h2 className={`text-4xl md:text-4xl font-extrabold tracking-tight ${className ?? ""}`}>{title}</h2>
+      <div className="mt-3 flex justify-center"><span className="block h-1 w-40 rounded-full bg-[#2b5bd9]" /></div>
       {subtitle && <p className="text-white/70 mt-2">{subtitle}</p>}
     </header>
   );
 }
 
-function FeatureCard({ icon, title, desc }: { icon: ReactNode; title: string; desc: string }) {
+function FeatureCard({ icon, title, desc, featured = false }: { icon: ReactNode; title: string; desc: string; featured?: boolean }) {
   return (
-    <div className="rounded-2xl bg-[#0f162a] border border-white/10 p-5">
+    <div className="relative overflow-visible rounded-2xl bg-[#0f162a] border border-white/10 p-5">
+      {featured && (
+        <span className="absolute -top-2 -right-2 rounded-full bg-blue-600/20 text-blue-300 text-[10px] font-semibold px-2 py-1 border border-blue-500/40 shadow-[0_6px_16px_rgba(59,130,246,0.35)]">FEATURED</span>
+      )}
       <div className="flex items-center gap-3">
         <div className="size-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/80">
           {icon}
@@ -109,7 +113,7 @@ export default function LandingPageScreen() {
       <section className="max-w-[1100px] mx-auto px-6 mt-14">
         <SectionTitle title="Key Features" subtitle="Our platform offers a range of features designed to help you create a standout resume." className="font-extrabold" />
         <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-          <FeatureCard icon={<Wand2 className="size-5" />} title="AI‑Powered Content Generation" desc="Let our AI suggest improvements and tailor your resume to specific job descriptions." />
+          <FeatureCard featured icon={<Wand2 className="size-5" />} title="AI‑Powered Generation" desc="Let our AI suggest improvements and tailor your resume to specific job descriptions." />
           <FeatureCard icon={<LayoutGrid className="size-5" />} title="Customizable Templates" desc="Choose from a variety of professionally designed templates to match your style." />
           <FeatureCard icon={<ShieldCheck className="size-5" />} title="ATS Score & Compatibility" desc="Analyze your resume against ATS criteria and get actionable fixes." />
         </div>
