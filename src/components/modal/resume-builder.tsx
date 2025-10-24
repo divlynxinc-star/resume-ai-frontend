@@ -362,7 +362,7 @@ function AIAssistantCard() {
         <div className="font-semibold">AI Assistant</div>
       </div>
       <p className="text-sm text-white/60 mt-2">Get personalized suggestions and generate content with AI.</p>
-      <a href="#ai-chat" className="mt-4 w-full rounded-lg bg-[oklch(0.488_0.243_264.376)] px-4 py-2 text-sm text-white inline-flex items-center justify-center">Generate with AI</a>
+      <a href="#ai-chat" className="mt-4 w-full rounded-lg bg-[oklch(0.488_0.243_264.376)] px-4 py-2 text-sm text-white inline-flex items-center justify-center">Generate with Juno</a>
     </div>
   );
 }

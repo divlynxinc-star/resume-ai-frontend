@@ -12,6 +12,8 @@ import {
   Edit2,
   Download,
   Trash,
+  Coins,
+  X,
 } from "lucide-react";
 import SiteNavbar from "../layout/site-navbar";
 
@@ -49,7 +51,7 @@ export function Sidebar({ activeRoute }: { activeRoute?: string }) {
           <span className="text-xs text-white/60">Your Career Catalyst</span>
         </div>
       </div>
-      <nav className="px-3 py-2 space-y-1">
+      <nav className="px-3 py-2 divide-y divide-white/10">
         <NavItem icon={<Home className="size-4" />} label="Dashboard" route="dashboard" active={current === "dashboard"} />
         <NavItem icon={<FileText className="size-4" />} label="My Resumes" route="my-resumes" active={current === "my-resumes"} />
         <NavItem icon={<LayoutGrid className="size-4" />} label="Templates" route="templates" active={current === "templates"} />
@@ -58,6 +60,7 @@ export function Sidebar({ activeRoute }: { activeRoute?: string }) {
         <NavItem icon={<Settings className="size-4" />} label="Settings" route="account" active={current === "account"} />
         <NavItem icon={<HelpCircle className="size-4" />} label="Help Center" route="help-center" active={current === "help-center"} />
       </nav>
+      <div className="mt-2 h-px bg-white/10 mx-3" />
       <div className="mt-auto px-3 py-4 space-y-3">
         {/* Rotating tips box */}
         <div className="rounded-xl bg-white/5 border border-white/12 p-3">
@@ -83,6 +86,7 @@ export function Sidebar({ activeRoute }: { activeRoute?: string }) {
         <button className="mt-4 w-full rounded-xl bg-[oklch(0.488_0.243_264.376)] px-4 py-2 text-white shadow-md shadow-[oklch(0.488_0.243_264.376)/30]" onClick={() => (window.location.hash = "#pricing")}> 
           Upgrade Plan
         </button>
+        <div className="h-px bg-white/10" />
         <button className="w-full rounded-xl px-4 py-2 text-white/70 hover:text-white flex items-center gap-2" onClick={() => (window.location.hash = "#home")}> 
           <LogOut className="size-4" /> Logout
         </button>
@@ -96,7 +100,7 @@ function NavItem({ icon, label, route, active = false }: { icon: ReactNode; labe
     <button
       onClick={() => (window.location.hash = `#${route}`)}
       className={
-        "flex items-center gap-3 rounded-xl px-4 py-2 text-sm cursor-pointer transition-colors " +
+        "w-full text-left flex items-center gap-3 rounded-xl px-4 py-2 text-sm cursor-pointer transition-colors " +
         (active ? "bg-white/5 text-white" : "text-white/70 hover:bg-white/5 hover:text-white")
       }
     >
@@ -200,13 +204,35 @@ function PromoBanner() {
   );
 }
 
+function CreditsGuidelineNote({ onClose }: { onClose: () => void }) {
+  return (
+    <div className="rounded-lg border border-white/12 bg-white/5 px-3 py-2.5 text-sm text-white/80 flex items-center gap-2">
+      <div className="size-6 rounded-md bg-yellow-500/20 border border-yellow-400/40 grid place-items-center">
+        <Coins className="size-4 text-yellow-400" />
+      </div>
+      <span>Tip: Tap your profile icon in the top bar to see your available credits.</span>
+      <button
+        onClick={onClose}
+        className="ml-auto size-7 rounded-md border border-white/10 text-white/70 hover:text-white hover:bg-white/10 grid place-items-center"
+        aria-label="Close tip"
+      >
+        <X className="size-4" />
+      </button>
+    </div>
+  );
+}
+
 export default function DashboardModal() {
+  const [showCreditsTip, setShowCreditsTip] = useState(true);
   return (
     <div className="min-h-svh bg-[#0b1220] text-white">
       <SiteNavbar />
       <div className="grid grid-cols-[260px_1fr] min-h-[calc(100vh-56px)]">
         <Sidebar activeRoute="dashboard" />
         <div className="px-6 py-6 space-y-6">
+          {showCreditsTip && (
+            <CreditsGuidelineNote onClose={() => setShowCreditsTip(false)} />
+          )}
           <HeroCard />
           <FeatureCards />
           <RecentActivity />

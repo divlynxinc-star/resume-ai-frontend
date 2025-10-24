@@ -31,7 +31,7 @@ function EmptyState() {
       <div className="mt-2 flex flex-col items-center text-center gap-5">
         <h2 className="text-xl font-semibold">No Resumes Created Yet!</h2>
         <p className="text-white/70 max-w-md">
-          You haven’t created any resumes. Kickstart your journey by building your first resume.
+          Kickstart your journey by building your first resume.
         </p>
         <button
           onClick={() => {
