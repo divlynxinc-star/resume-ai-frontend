@@ -58,7 +58,19 @@ export default function Signup() {
             <Input label="Password" type="password" placeholder="Enter your password" />
             <Input label="Confirm Password" type="password" placeholder="Confirm your password" />
 
-            <button className="mt-2 w-full rounded-xl bg-[oklch(0.488_0.243_264.376)] py-3 text-white font-medium shadow-md shadow-[oklch(0.488_0.243_264.376)/30]">
+            <button
+              className="mt-2 w-full rounded-xl bg-[oklch(0.488_0.243_264.376)] py-3 text-white font-medium shadow-md shadow-[oklch(0.488_0.243_264.376)/30]"
+              onClick={() => {
+                try {
+                  localStorage.setItem("authToken", "demo-token");
+                  // First login goes to onboarding
+                  const firstShown = localStorage.getItem("firstLoginShown");
+                  window.location.hash = firstShown ? "#dashboard" : "#onboarding";
+                } catch {
+                  window.location.hash = "#dashboard";
+                }
+              }}
+            >
               Create Account
             </button>
 

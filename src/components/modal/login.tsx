@@ -56,6 +56,13 @@ export default function LoginScreen() {
     setStatus("loading");
     await new Promise((res) => setTimeout(res, 800));
     setStatus("idle");
+    try {
+      localStorage.setItem("authToken", "demo-token");
+      const firstShown = localStorage.getItem("firstLoginShown");
+      window.location.hash = firstShown ? "#dashboard" : "#onboarding";
+    } catch {
+      window.location.hash = "#dashboard";
+    }
   };
 
   return (

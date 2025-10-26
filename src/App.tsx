@@ -24,6 +24,8 @@ import {
   CookiePolicyScreen,
   SecurityScreen,
   ContactUsModal,
+  LoginScreen,
+  OnboardingScreen,
 } from "./components";
 
 const routes: Record<string, ComponentType<any>> = {
@@ -39,6 +41,8 @@ const routes: Record<string, ComponentType<any>> = {
   interview: InterviewScreen,
   "ai-chat": AIChatModal,
   signup: Signup,
+  login: LoginScreen,
+  onboarding: OnboardingScreen,
   terms: TermsOfServiceScreen,
   privacy: PrivacyPolicyScreen,
   "help-center": HelpCenterScreen,

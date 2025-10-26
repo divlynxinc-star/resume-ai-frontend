@@ -10,7 +10,7 @@ function Brand() {
           alt="ResumeCraft AI Logo"
           className="h-14 w-14 rounded-md"
         />
-        <span className="text-white font-semibold">ResumeCraft AI</span>
+        <span className="text-white font-semibold">Jobsynk AI</span>
       </div>
 
       <p className="text-white/70 text-sm mt-3 max-w-[280px]">
