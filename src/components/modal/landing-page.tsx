@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode } from "react";
-import { Wand2, LayoutGrid, ShieldCheck, Quote, Sparkles, ArrowRight, Video, ChevronUp } from "lucide-react";
+import { Wand2, LayoutGrid, ShieldCheck, Quote, Sparkles, ArrowRight, Video, ChevronUp, FileText, ListChecks, BarChart3, UserCheck, BadgeCheck, Link, Gauge } from "lucide-react";
 import SiteNavbar from "../layout/site-navbar";
 import SiteFooter from "../layout/site-footer";
 import { PricingSection } from "./pricing";
@@ -116,6 +116,48 @@ export default function LandingPageScreen() {
           <FeatureCard featured icon={<Wand2 className="size-5" />} title="AI‑Powered Generation" desc="Let our AI suggest improvements and tailor your resume to specific job descriptions." />
           <FeatureCard icon={<LayoutGrid className="size-5" />} title="Customizable Templates" desc="Choose from a variety of professionally designed templates to match your style." />
           <FeatureCard icon={<ShieldCheck className="size-5" />} title="ATS Score & Compatibility" desc="Analyze your resume against ATS criteria and get actionable fixes." />
+        </div>
+      </section>
+
+      {/* Industry Demands & How We Help */}
+      <section className="max-w-[1100px] mx-auto px-6 mt-16">
+        <SectionTitle
+          title="What Industry Demands"
+          subtitle="What recruiters and ATS actually look for in your resume."
+        />
+        <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+          <FeatureCard icon={<FileText className="size-5" />} title="ATS Compliance & Structure" desc="Clean headings, consistent bullet points, readable sections that parse correctly." />
+          <FeatureCard icon={<ListChecks className="size-5" />} title="Role & Keyword Relevance" desc="Presence of job‑specific keywords and competencies aligned to the role." />
+          <FeatureCard icon={<BarChart3 className="size-5" />} title="Impact Metrics" desc="Quantified outcomes (growth %, savings, speed gains) that prove results." />
+          <FeatureCard icon={<UserCheck className="size-5" />} title="Core Skills & Tools" desc="Evidence of the exact skills, frameworks, and tools recruiters expect." />
+          <FeatureCard icon={<BadgeCheck className="size-5" />} title="Consistency & Integrity" desc="No contradictions, duplicates, or exaggerated claims; polished wording." />
+          <FeatureCard icon={<Link className="size-5" />} title="Links & Contact Hygiene" desc="Functional links, professional email, and complete profile details." />
+        </div>
+
+        <div className="mt-12">
+          <SectionTitle
+            title="How We Help You Stand Out"
+            subtitle="We apply AI to optimize for these checks so you rise to the top."
+          />
+          <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <FeatureCard icon={<Wand2 className="size-5" />} title="AI Tailoring to JD" desc="Aligns content to a target job, adding missing keywords and skills." />
+            <FeatureCard icon={<ShieldCheck className="size-5" />} title="ATS Optimizer" desc="Restructures sections and formatting to pass most ATS systems." />
+            <FeatureCard icon={<Sparkles className="size-5" />} title="Achievement Rewriter" desc="Turns tasks into quantified impact statements with crisp phrasing." />
+            <FeatureCard icon={<LayoutGrid className="size-5" />} title="Smart Template Picks" desc="Recommends designs that fit your profile and industry norms." />
+            <FeatureCard icon={<Gauge className="size-5" />} title="Real‑Time Score & Fixes" desc="Shows a score and suggests actionable edits as you write." />
+            <FeatureCard icon={<ListChecks className="size-5" />} title="Consistency & Typos Fix" desc="Catches duplicates, tense/voice drift, and common errors automatically." />
+          </div>
+        </div>
+
+        <div className="mt-10 rounded-2xl border border-white/10 bg-white/[0.04] p-6 text-center">
+          <h3 className="text-xl font-semibold">Our Value</h3>
+          <p className="mt-2 text-white/70 max-w-2xl mx-auto">
+            Faster interviews with clear, tailored, ATS‑friendly resumes that recruiters trust. We help you highlight the right achievements, the right way.
+          </p>
+          <div className="mt-4 flex items-center justify-center gap-3">
+            <a href="#signup" className="rounded-xl bg-[oklch(0.488_0.243_264.376)] px-5 py-2 text-white text-sm font-medium hover:bg-[oklch(0.488_0.243_264.376)/90]">Start Free</a>
+            <a href="#templates" className="rounded-xl border border-white/10 px-5 py-2 text-white/80 text-sm hover:text-white hover:bg-white/[0.06]">See Templates</a>
+          </div>
         </div>
       </section>
 

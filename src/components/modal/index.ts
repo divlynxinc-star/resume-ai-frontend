@@ -31,3 +31,4 @@ export { default as AccountManagementScreen } from "./account-management";
 export { default as MyResumesScreen } from "./my-resumes";
 export { default as UserDetailsScreen } from "./user-details";
 export { TemplatesShowingSection } from "./templates-showing";
+export { default as OnboardingScreen } from "./onboarding";

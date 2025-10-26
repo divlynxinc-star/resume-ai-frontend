@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Bell, User2, Settings, Coins, LogOut } from "lucide-react";
+import { Bell, User2, Settings, Coins, LogOut, MessageSquare, Wand2, FileText, CheckCircle } from "lucide-react";
 import resumeLogo from "../../assets/resume-ai-logo.png";
 
 export default function SiteNavbar() {
@@ -13,6 +13,9 @@ export default function SiteNavbar() {
   // Profile dropdown state & refs
   const [profileOpen, setProfileOpen] = useState(false);
   const profileRef = useRef<HTMLDivElement | null>(null);
+  // Notifications dropdown state & ref
+  const [notifOpen, setNotifOpen] = useState(false);
+  const notifRef = useRef<HTMLDivElement | null>(null);
 
   // Resolve credits from storage or plan
   const getCredits = () => {
@@ -39,7 +42,7 @@ export default function SiteNavbar() {
   };
   const credits = getCredits();
   // Notifications count (from sessionStorage or default)
-  const [notifCount] = useState<number>(() => {
+  const [notifCount, setNotifCount] = useState<number>(() => {
     try {
       const raw = sessionStorage.getItem("notificationCount");
       if (raw) {
@@ -49,13 +52,21 @@ export default function SiteNavbar() {
     } catch {}
     return 3; // fallback demo count
   });
+  const notifications: { id: string; title: string; desc: string; icon: JSX.Element; time: string }[] = [
+    { id: "n1", title: "Resume exported", desc: "Your PDF is ready to download.", icon: <FileText className="size-4 text-blue-400" />, time: "2m" },
+    { id: "n2", title: "AI suggestion", desc: "Improve your summary with AI.", icon: <Wand2 className="size-4 text-purple-400" />, time: "10m" },
+    { id: "n3", title: "New message", desc: "Recruiter replied to your application.", icon: <MessageSquare className="size-4 text-emerald-400" />, time: "1h" },
+    { id: "n4", title: "Plan upgraded", desc: "Premium features unlocked.", icon: <CheckCircle className="size-4 text-cyan-400" />, time: "1d" },
+  ];
 
   useEffect(() => {
     const onDocClick = (e: MouseEvent) => {
-      if (!profileRef.current) return;
       const target = e.target as Node;
       if (profileRef.current && !profileRef.current.contains(target)) {
         setProfileOpen(false);
+      }
+      if (notifRef.current && !notifRef.current.contains(target)) {
+        setNotifOpen(false);
       }
     };
     document.addEventListener("click", onDocClick);
@@ -78,13 +89,32 @@ export default function SiteNavbar() {
         <a href="#home" className="flex items-center gap-3">
           <img src={resumeLogo} alt="ResumeCraft AI Logo" className="h-10 w-10 rounded-md" />
           <span className="text-white font-semibold text-lg tracking-wide">
-            ResumeCraft AI
+            Jobsynk AI
           </span>
         </a>
 
         {/* Nav links */}
         <nav className="hidden md:flex items-center gap-8 ml-16 text-sm">
-          <a href="#dashboard" className={linkClass("dashboard")} >Dashboard</a>
+          <a
+            href="#dashboard"
+            className={linkClass("dashboard")}
+            onClick={(e) => {
+              e.preventDefault();
+              const token = localStorage.getItem("authToken");
+              const firstShown = localStorage.getItem("firstLoginShown");
+              if (!token) {
+                window.location.hash = "#login";
+                return;
+              }
+              if (!firstShown) {
+                window.location.hash = "#onboarding";
+                return;
+              }
+              window.location.hash = "#dashboard";
+            }}
+          >
+            Dashboard
+          </a>
           <a href="#resumes" className={linkClass("resumes")} >AI Builder</a>
           <a href="#templates" className={linkClass("templates")} >Templates</a>
           <a href="#tailoring" className={linkClass("tailoring")} >AI Tools</a>
@@ -93,7 +123,7 @@ export default function SiteNavbar() {
         </nav>
 
         {/* Right: actions */}
-        <div className="flex items-center gap-4 ml-auto">
+        <div className="flex items-center gap-4 ml-auto relative">
           <a
             href="#account"
             className="rounded-lg px-2.5 py-1.5 bg-[oklch(0.488_0.243_264.376)] text-white text-xs hover:bg-[oklch(0.488_0.243_264.376)/90] inline-flex items-center gap-1.5"
@@ -134,17 +164,51 @@ export default function SiteNavbar() {
               </div>
             )}
           </div>
-          <button
-            className="size-8 rounded-full bg-white/10 border border-white/20 text-white/70 hover:text-white grid place-items-center transition relative"
-            aria-label="Notifications"
-          >
-            <Bell className="size-4" />
-            {notifCount > 0 && (
-              <span className="absolute -top-1 -right-1 min-w-[18px] h-4 px-1 rounded-full bg-red-500 text-[10px] font-semibold text-white grid place-items-center border border-white/20 shadow">
-                {notifCount > 99 ? "99+" : notifCount}
-              </span>
+          <div ref={notifRef} className="relative">
+            <button
+              onClick={() => setNotifOpen((o) => !o)}
+              className="size-8 rounded-full bg-white/10 border border-white/20 text-white/70 hover:text-white grid place-items-center transition relative"
+              aria-label="Notifications"
+            >
+              <Bell className="size-4" />
+              {notifCount > 0 && (
+                <span className="absolute -top-1 -right-1 min-w-[18px] h-4 px-1 rounded-full bg-red-500 text-[10px] font-semibold text-white grid place-items-center border border-white/20 shadow">
+                  {notifCount > 99 ? "99+" : notifCount}
+                </span>
+              )}
+            </button>
+            {notifOpen && (
+              <div className="absolute right-0 top-10 w-80 rounded-xl bg-[#0f1629] border border-white/10 shadow-[0_12px_40px_rgba(0,0,0,0.35)]">
+                <div className="px-3 py-2.5 flex items-center justify-between">
+                  <div className="text-sm text-white/80">Notifications</div>
+                  <button
+                    className="text-xs text-white/70 hover:text-white"
+                    onClick={() => {
+                      setNotifCount(0);
+                      try { sessionStorage.setItem("notificationCount", "0"); } catch {}
+                    }}
+                  >
+                    Mark all read
+                  </button>
+                </div>
+                <div className="h-px bg-white/10" />
+                <ul className="max-h-64 overflow-auto py-2">
+                  {notifications.slice(0, 6).map((n) => (
+                    <li key={n.id} className="px-3 py-2.5 flex items-start gap-3 hover:bg-white/5">
+                      <div className="size-7 rounded-md bg-white/5 border border-white/10 grid place-items-center shrink-0">
+                        {n.icon}
+                      </div>
+                      <div className="flex-1">
+                        <div className="text-sm text-white/90 font-medium">{n.title}</div>
+                        <div className="text-xs text-white/60">{n.desc}</div>
+                      </div>
+                      <div className="text-[11px] text-white/50">{n.time}</div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             )}
-          </button>
+          </div>
         </div>
       </div>
     </header>
