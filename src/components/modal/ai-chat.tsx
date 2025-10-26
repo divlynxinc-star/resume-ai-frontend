@@ -3,13 +3,20 @@ import { Bot, User, ChevronDown, ChevronUp } from "lucide-react";
 import SiteNavbar from "../layout/site-navbar";
 import junoBot from "../../assets/juno.png";
 
-function SectionHeading({ children }: { children: ReactNode }) {
-  return <h2 className="text-white/80 font-semibold text-sm">{children}</h2>;
-}
+// function SectionHeading({ children }: { children: ReactNode }) {
+//   return <h2 className="text-white/80 font-semibold text-sm">{children}</h2>;
+// }
 
-function Card({ children, className = "" }: { children: ReactNode; className?: string }) {
+function Card({
+  children,
+  className = "",
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
   return (
-    <div className={`rounded-2xl bg-white/5 border border-white/12 p-5 sm:p-6 ${className}`}>
+    <div
+      className={`rounded-2xl bg-white/5 border border-white/12 p-5 sm:p-6 ${className}`}>
       {children}
     </div>
   );
@@ -34,19 +41,25 @@ function SendIcon() {
   );
 }
 
-function ChatBubble({ role, children }: { role: "assistant" | "user"; children: ReactNode }) {
+function ChatBubble({
+  role,
+  children,
+}: {
+  role: "assistant" | "user";
+  children: ReactNode;
+}) {
   const isUser = role === "user";
   return (
     <div
-      className={`flex items-end gap-4 ${isUser ? "justify-end flex-row-reverse" : "justify-start"}`}
-    >
+      className={`flex items-end gap-4 ${
+        isUser ? "justify-end flex-row-reverse" : "justify-start"
+      }`}>
       <div
         className={`w-10 h-10 rounded-full flex items-center justify-center ${
           isUser
             ? "bg-[#2b5bd9]/30 border border-[#2b5bd9]/50"
             : "bg-white/10 border border-white/20"
-        }`}
-      >
+        }`}>
         {isUser ? (
           <User className="size-5 text-[#2b5bd9]" />
         ) : (
@@ -59,8 +72,7 @@ function ChatBubble({ role, children }: { role: "assistant" | "user"; children: 
           isUser
             ? "bg-[#2b5bd9] text-white"
             : "bg-white/8 border border-white/12 text-white/90"
-        }`}
-      >
+        }`}>
         {children}
       </div>
     </div>
@@ -74,7 +86,9 @@ function ChatPanel() {
         <ChatBubble role="assistant">
           Hi Sarah, how can I help you improve your resume today?
         </ChatBubble>
-        <ChatBubble role="user">Can you make my summary more professional?</ChatBubble>
+        <ChatBubble role="user">
+          Can you make my summary more professional?
+        </ChatBubble>
       </Card>
 
       <div className="mt-3 bg-[#0e1830] border border-white/10 rounded-2xl flex items-center p-3">
@@ -124,16 +138,15 @@ function ExamplePromptDropdown() {
       />
 
       {open && (
-        <div
-          className="absolute left-0 top-full mt-2 w-full p-4 border border-white/10 bg-[#101a33] rounded-xl space-y-3 shadow-lg animate-fadeIn z-30"
-        >
-          <p className="text-xs text-white/50 mb-2">Try one of these prompts:</p>
+        <div className="absolute left-0 top-full mt-2 w-full p-4 border border-white/10 bg-[#101a33] rounded-xl space-y-3 shadow-lg animate-fadeIn z-30">
+          <p className="text-xs text-white/50 mb-2">
+            Try one of these prompts:
+          </p>
           <div className="flex flex-wrap gap-3">
             {prompts.map((p) => (
               <button
                 key={p}
-                className="h-9 px-4 rounded-full text-xs font-medium bg-white/5 text-white/80 hover:text-white hover:bg-white/10 border border-white/10 transition-all duration-200"
-              >
+                className="h-9 px-4 rounded-full text-xs font-medium bg-white/5 text-white/80 hover:text-white hover:bg-white/10 border border-white/10 transition-all duration-200">
                 {p}
               </button>
             ))}
@@ -178,8 +191,15 @@ export default function AIChatModal() {
               </div>
               <div className="absolute bottom-4 left-4 right-4 grid grid-cols-2 gap-4">
                 <button className="h-12 px-5 rounded-xl bg-[#2b5bd9] text-white text-sm flex items-center justify-center gap-2 shadow-[0_8px_20px_rgba(43,91,217,0.35)] w-full">
-                  <svg width="16" height="16" viewBox="0 0 24 24" className="text-white">
-                    <path fill="currentColor" d="M19 13H13v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    className="text-white">
+                    <path
+                      fill="currentColor"
+                      d="M19 13H13v6h-2v-6H5v-2h6V5h2v6h6v2z"
+                    />
                   </svg>
                   Apply to Resume
                 </button>
