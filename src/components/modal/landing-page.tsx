@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode } from "react";
-import { Wand2, LayoutGrid, ShieldCheck, Quote, Sparkles, ArrowRight, Video, ChevronUp, FileText, ListChecks, BarChart3, UserCheck, BadgeCheck, Link, Gauge } from "lucide-react";
+import { Wand2, LayoutGrid, ShieldCheck, Quote, Sparkles, ArrowRight, ChevronUp, FileText, ListChecks, BarChart3, UserCheck, BadgeCheck, Link, Gauge } from "lucide-react";
 import SiteNavbar from "../layout/site-navbar";
 import SiteFooter from "../layout/site-footer";
 import { PricingSection } from "./pricing";

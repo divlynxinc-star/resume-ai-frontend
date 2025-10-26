@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type JSX } from "react";
 import { Bell, User2, Settings, Coins, LogOut, MessageSquare, Wand2, FileText, CheckCircle } from "lucide-react";
 import resumeLogo from "../../assets/resume-ai-logo.png";
 
