@@ -120,8 +120,9 @@ function ExamplePromptDropdown() {
   return (
     <div className="mt-6 relative">
       <div
-        className="flex items-center justify-between cursor-pointer bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg px-4 py-3 text-sm text-white/80 transition"
-        onClick={() => setOpen(!open)}>
+        className="relative z-10 flex items-center justify-between cursor-pointer bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg px-4 py-3 text-sm text-white/80 transition"
+        onClick={() => setOpen(!open)}
+      >
         <span className="font-medium">View Example Prompts</span>
         {open ? (
           <ChevronUp className="size-4 text-white/70" />
@@ -129,6 +130,12 @@ function ExamplePromptDropdown() {
           <ChevronDown className="size-4 text-white/70" />
         )}
       </div>
+      <img
+        src={junoBot}
+        alt="Juno Bot"
+        className="absolute right-170 -top-25 w-26 h-26 object-contain hidden md:block pointer-events-none z-0"
+        style={{ filter: "drop-shadow(0px 10px 18px rgba(0,0,0,0.45))" }}
+      />
 
       {open && (
         <div className="absolute left-0 top-full mt-2 w-full p-4 border border-white/10 bg-[#101a33] rounded-xl space-y-3 shadow-lg animate-fadeIn z-30">
@@ -156,17 +163,7 @@ export default function AIChatModal() {
       <SiteNavbar />
 
       <main className="max-w-[1100px] mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-3 gap-8 h-[calc(100vh-56px)] overflow-visible relative">
-        {/* 🧠 Bot absolutely behind all content */}
-        <img
-          src={junoBot}
-          alt="Juno Bot"
-          className="absolute left-[-65px] top-[10px] h-40 w-40 object-contain animate-bounce-slow z-0 pointer-events-none"
-          style={{
-            transform: "rotate(-8deg)",
-            filter: "drop-shadow(0px 6px 12px rgba(0,0,0,0.6))",
-          }}
-        />
-
+        {/* Bot graphic moved into prompts area to avoid overlapping heading */}
         {/* Left Column */}
         <div className="lg:col-span-2 h-full min-h-0 flex flex-col relative z-20">
           {/* ✅ Heading block creates new stacking context */}
