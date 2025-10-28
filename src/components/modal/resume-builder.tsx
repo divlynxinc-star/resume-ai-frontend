@@ -2,6 +2,7 @@ import type { ReactNode, ChangeEvent } from "react";
 import { useState, useEffect } from "react";
 import { Wand2 } from "lucide-react";
 import SiteNavbar from "../layout/site-navbar";
+import PageWithSidebar from "../layout/page-with-sidebar";
 
 
 function PageHeader() {
@@ -14,7 +15,7 @@ function PageHeader() {
 }
 
 // Added: Tab and resume data types
-type TabKey = "personal" | "experience" | "education" | "skills" | "summary" | "custom";
+type TabKey = "personal" | "experience" | "education" | "skills" | "summary" | "job" | "custom";
 
 interface Experience {
   role: string;
@@ -34,6 +35,13 @@ interface Education {
   location?: string;
 }
 
+interface JobDetails {
+  title: string;
+  company: string;
+  location?: string;
+  description: string;
+}
+
 interface CustomSection { title: string; content: string; }
 
 interface ResumeData {
@@ -47,6 +55,7 @@ interface ResumeData {
   education: Education[];
   skills: string[];
   summary: string;
+  job: JobDetails;
   customSections: CustomSection[];
 }
 
@@ -61,6 +70,7 @@ const emptyResume: ResumeData = {
   education: [{ school: "", degree: "", field: "", startDate: "", endDate: "", location: "" }],
   skills: [],
   summary: "",
+  job: { title: "", company: "", location: "", description: "" },
   customSections: [],
 };
 
@@ -71,6 +81,7 @@ function Tabs({ active, onChange }: { active: TabKey; onChange: (t: TabKey) => v
     { key: "education", label: "Education" },
     { key: "skills", label: "Skills" },
     { key: "summary", label: "Summary" },
+    { key: "job", label: "Job Description" },
     { key: "custom", label: "Custom" },
   ];
   return (
@@ -316,6 +327,32 @@ function SummaryForm({ resume, setResume }: { resume: ResumeData; setResume: (r:
   );
 }
 
+function JobDescriptionForm({ resume, setResume }: { resume: ResumeData; setResume: (r: ResumeData) => void }) {
+  const updateJob = (patch: Partial<JobDetails>) => {
+    setResume({ ...resume, job: { ...resume.job, ...patch } });
+  };
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div>
+        <Label>Job Title</Label>
+        <TextInput value={resume.job.title} onChange={(v) => updateJob({ title: v })} placeholder="e.g., Frontend Engineer" />
+      </div>
+      <div>
+        <Label>Company</Label>
+        <TextInput value={resume.job.company} onChange={(v) => updateJob({ company: v })} placeholder="e.g., Acme Corp" />
+      </div>
+      <div>
+        <Label>Location</Label>
+        <TextInput value={resume.job.location ?? ""} onChange={(v) => updateJob({ location: v })} placeholder="City, Country or Remote" />
+      </div>
+      <div className="md:col-span-2">
+        <Label>Job Description / Key Requirements</Label>
+        <TextArea value={resume.job.description} onChange={(v) => updateJob({ description: v })} rows={8} placeholder="Paste the job description here, including responsibilities and qualifications." />
+      </div>
+    </div>
+  );
+}
+
 function CustomSectionsForm({ resume, setResume }: { resume: ResumeData; setResume: (r: ResumeData) => void }) {
   const addSection = () => {
     setResume({ ...resume, customSections: [...resume.customSections, { title: "", content: "" }] });
@@ -489,7 +526,18 @@ export default function ResumeBuilderScreen() {
   const [resume, setResume] = useState<ResumeData>(() => {
     try {
       const raw = localStorage.getItem('resumeData');
-      return raw ? JSON.parse(raw) as ResumeData : emptyResume;
+      if (!raw) return emptyResume;
+      const data = JSON.parse(raw) as Partial<ResumeData>;
+      return {
+        ...emptyResume,
+        ...data,
+        experiences: data.experiences ?? emptyResume.experiences,
+        education: data.education ?? emptyResume.education,
+        skills: data.skills ?? emptyResume.skills,
+        summary: data.summary ?? emptyResume.summary,
+        job: data.job ?? emptyResume.job,
+        customSections: data.customSections ?? emptyResume.customSections,
+      };
     } catch {
       return emptyResume;
     }
@@ -515,7 +563,7 @@ export default function ResumeBuilderScreen() {
     try { localStorage.setItem('resumeData', JSON.stringify(resume)); } catch {}
   }, [resume]);
 
-  const order: TabKey[] = ['personal', 'experience', 'education', 'skills', 'summary', 'custom'];
+  const order: TabKey[] = ['personal', 'experience', 'education', 'skills', 'summary', 'job', 'custom'];
   const goNext = () => {
     const idx = order.indexOf(activeTab);
     if (idx < order.length - 1) setActiveTab(order[idx + 1]);
@@ -537,6 +585,8 @@ export default function ResumeBuilderScreen() {
         return <SkillsForm resume={resume} setResume={setResume} />;
       case 'summary':
         return <SummaryForm resume={resume} setResume={setResume} />;
+      case 'job':
+        return <JobDescriptionForm resume={resume} setResume={setResume} />;
       case 'custom':
         return <CustomSectionsForm resume={resume} setResume={setResume} />;
       default:
@@ -547,7 +597,7 @@ export default function ResumeBuilderScreen() {
   return (
     <div className="min-h-svh bg-[#0b1220] text-white">
       <SiteNavbar />
-      <main className="max-w-[1100px] mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <PageWithSidebar activeRoute="my-resumes" mainClassName="max-w-[1100px] mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Left (main form) */}
         <div className="lg:col-span-2">
           <PageHeader />
@@ -568,7 +618,7 @@ export default function ResumeBuilderScreen() {
           <AIAssistantCard />
           <ResumePreview />
         </div>
-      </main>
+      </PageWithSidebar>
 
       {/* Start choice modal */}
       {startModalOpen && (

@@ -15,11 +15,11 @@ function SectionTitle({ title, subtitle }: { title: string; subtitle?: string })
 function TemplateCard({ title, bg }: { title: string; bg: string }) {
   return (
     <div className="flex-none w-72 sm:w-80 lg:w-[22rem] xl:w-[19rem]">
-      <div className={`relative group w-full aspect-[4/5] rounded-2xl ${bg} border border-white/10 shadow-[0_12px_40px_rgba(0,0,0,0.35)] overflow-hidden`}>
+      <div className={`relative group w-full aspect-[4/5] rounded-2xl ${bg} border border-white/10 shadow-[0_12px_40px_rgba(0,0,0,0.35)] overflow-hidden cursor-pointer`}>
         <div className="absolute inset-0 opacity-30 bg-gradient-to-br from-white/10 to-black/10" />
         <img src={resumeTemplate} alt="Resume template preview" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[92%] w-auto rounded-lg object-contain bg-white shadow-xl" />
         <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-          <button className="px-4 py-2 rounded-full bg-white text-black text-sm font-medium shadow-md">View Template</button>
+          <button className="px-4 py-2 rounded-full bg-white text-black text-sm font-medium shadow-md cursor-pointer">View Template</button>
         </div>
         <div className="absolute left-4 top-4 h-24 w-24 rounded-full bg-black/10 blur-2xl" />
       </div>

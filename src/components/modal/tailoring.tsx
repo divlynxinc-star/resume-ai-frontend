@@ -7,6 +7,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import SiteNavbar from "../layout/site-navbar";
+import PageWithSidebar from "../layout/page-with-sidebar";
 
 
 function IconWrap({ children }: { children: ReactNode }) {
@@ -37,7 +38,7 @@ function StepCard({
   icon: ReactNode;
 }) {
   return (
-    <div className="relative rounded-2xl bg-white/[0.035] border border-white/10 p-6 text-white shadow-[0_20px_60px_rgba(0,0,0,0.45)] ring-1 ring-blue-500/10">
+    <div className="relative rounded-2xl bg-white/[0.035] border border-white/10 p-6 text-white shadow-[0_20px_60px_rgba(0,0,0,0.45)] ring-1 ring-blue-500/10 transition-transform duration-200 ease-out hover:-translate-y-0.5 hover:scale-[1.02] hover:shadow-[0_24px_60px_rgba(59,130,246,0.35)] hover:ring-blue-400/25">
       <NumberBadge n={n} />
       <div className="space-y-3">
         <IconWrap>{icon}</IconWrap>
@@ -56,7 +57,7 @@ function AccentBar() {
 
 function InfoPanel({ title, items }: { title: string; items: string[] }) {
   return (
-    <div className="relative rounded-2xl bg-white/[0.035] border border-white/10 p-6 text-white shadow-[0_20px_60px_rgba(0,0,0,0.45)]">
+    <div className="relative rounded-2xl bg-white/[0.035] border border-white/10 p-6 text-white shadow-[0_20px_60px_rgba(0,0,0,0.45)] transition-transform duration-200 ease-out hover:-translate-y-0.5 hover:scale-[1.02] hover:shadow-[0_24px_60px_rgba(59,130,246,0.35)]">
       <AccentBar />
       <h3 className="text-lg font-semibold tracking-tight">{title}</h3>
       <ul className="mt-4 space-y-3">
@@ -151,10 +152,9 @@ export default function TailoringScreen() {
   return (
     <div className="min-h-svh bg-[#0b1220] text-white">
       <SiteNavbar />
-
-      <main>
+      <PageWithSidebar activeRoute="tailoring">
         <TailoringSection />
-      </main>
+      </PageWithSidebar>
     </div>
   );
 }

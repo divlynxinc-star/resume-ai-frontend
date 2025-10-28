@@ -119,7 +119,7 @@ export default function SiteFooter() {
       </div>
 
       <div className="max-w-[1100px] mx-auto px-6 border-t border-white/10 py-4 text-white/60 text-xs">
-        © 2024 ResumeCraft. All rights reserved.
+        © 2025 Jobsynk AI. All rights reserved.
       </div>
     </footer>
   );
