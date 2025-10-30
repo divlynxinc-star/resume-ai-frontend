@@ -26,6 +26,7 @@ import {
   ContactUsModal,
   LoginScreen,
   OnboardingScreen,
+  EnterpriseScreen,
 } from "./components";
 
 const routes: Record<string, ComponentType<any>> = {
@@ -53,6 +54,7 @@ const routes: Record<string, ComponentType<any>> = {
   "cookie-policy": CookiePolicyScreen,
   security: SecurityScreen,
   "contact-us": ContactUsModal,
+  enterprise: EnterpriseScreen,
 };
 
 function getRoute(): string {

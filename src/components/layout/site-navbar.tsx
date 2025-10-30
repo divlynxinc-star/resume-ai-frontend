@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type JSX } from "react";
-import { Bell, User2, Settings, Coins, LogOut, MessageSquare, Wand2, FileText, CheckCircle } from "lucide-react";
+import { Bell, User2, Settings, Coins, LogOut, MessageSquare, Wand2, FileText, CheckCircle, Building2, Crown } from "lucide-react";
 import resumeLogo from "../../assets/resume-ai-logo.png";
 
 export default function SiteNavbar() {
@@ -41,6 +41,18 @@ export default function SiteNavbar() {
     return 5;
   };
   const credits = getCredits();
+  // Resolve current subscription plan title, default to Freemium
+  const planTitle = (() => {
+    try {
+      const planRaw = sessionStorage.getItem("selectedPlan");
+      if (planRaw) {
+        const parsed = JSON.parse(planRaw ?? '{}');
+        const t = parsed?.title as string | undefined;
+        if (t) return t === "Free" ? "Freemium" : t;
+      }
+    } catch {}
+    return "Freemium";
+  })();
   // Notifications count (from sessionStorage or default)
   const [notifCount, setNotifCount] = useState<number>(() => {
     try {
@@ -115,22 +127,15 @@ export default function SiteNavbar() {
           >
             Dashboard
           </a>
-          <a href="#resumes" className={linkClass("resumes")} >AI Builder</a>
+          {/*<a href="#resumes" className={linkClass("resumes")} >AI Builder</a>*/}
           <a href="#templates" className={linkClass("templates")} >Templates</a>
           <a href="#tailoring" className={linkClass("tailoring")} >AI Tools</a>
           <a href="#pricing" className={linkClass("pricing")} >Pricing</a>
-          <a href="#user-details" className={linkClass("user-details")} >User Details</a>
+          <a href="#user-details" className={linkClass("user-details")} >Your Profile</a>
         </nav>
 
         {/* Right: actions */}
         <div className="flex items-center gap-4 ml-auto relative">
-          <a
-            href="#account"
-            className="rounded-lg px-2.5 py-1.5 bg-[oklch(0.488_0.243_264.376)] text-white text-xs hover:bg-[oklch(0.488_0.243_264.376)/90] inline-flex items-center gap-1.5"
-          >
-            <Settings className="size-3" />
-            Manage Account
-          </a>
           <button
             onClick={() => { window.location.hash = "#resumes"; }}
             className="rounded-lg px-2.5 py-1.5 bg-white/5 border border-white/10 text-white/80 text-xs hover:text-white"
@@ -149,11 +154,32 @@ export default function SiteNavbar() {
             {profileOpen && (
               <div className="absolute right-0 top-10 w-56 rounded-xl bg-[#0f1629] border border-white/10 shadow-[0_12px_40px_rgba(0,0,0,0.35)]">
                 <div className="px-3 py-2.5 flex items-center gap-2">
+                  <div className="size-7 rounded-md bg-purple-500/20 border border-purple-400/40 grid place-items-center">
+                    <Crown className="size-4 text-purple-300" />
+                  </div>
+                  <div className="text-sm text-white/90">Plan: <span className="font-semibold text-white">{planTitle}</span></div>
+                </div>
+                <div className="h-px bg-white/10" />
+                <div className="px-3 py-2.5 flex items-center gap-2">
                   <div className="size-7 rounded-md bg-yellow-500/20 border border-yellow-400/40 grid place-items-center">
                     <Coins className="size-4 text-yellow-400" />
                   </div>
                   <div className="text-sm text-white/90">Credits: <span className="font-semibold text-white">{credits}</span></div>
                 </div>
+                <div className="h-px bg-white/10" />
+                <button
+                  onClick={() => { window.location.hash = "#account"; }}
+                  className="w-full text-left px-3 py-2.5 flex items-center gap-2 text-sm text-white/80 hover:text-white hover:bg-white/5"
+                >
+                  <Settings className="size-4" /> Manage Account
+                </button>
+                <div className="h-px bg-white/10" />
+                <button
+                  onClick={() => { window.location.hash = "#enterprise"; }}
+                  className="w-full text-left px-3 py-2.5 flex items-center gap-2 text-sm text-white/80 hover:text-white hover:bg-white/5"
+                >
+                  <Building2 className="size-4" /> Enterprise Plans
+                </button>
                 <div className="h-px bg-white/10" />
                 <button
                   onClick={logout}

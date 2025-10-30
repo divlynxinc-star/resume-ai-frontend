@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { ReactNode } from "react";
 import { Search, User, Edit3, LayoutGrid, Wrench, CreditCard, Zap } from "lucide-react";
 import SiteNavbar from "../layout/site-navbar";
+import PageWithSidebar from "../layout/page-with-sidebar";
 
 
 function PageTitle({ title, subtitle }: { title: string; subtitle: string }) {
@@ -85,7 +86,7 @@ export default function HelpCenterScreen() {
   return (
     <div className="min-h-svh bg-[#0b1220] text-white">
       <SiteNavbar />
-      <main className="max-w-[1100px] mx-auto px-6 py-8">
+      <PageWithSidebar activeRoute="help-center" mainClassName="max-w-[1100px] mx-auto py-8">
         <PageTitle title="Help Center & Knowledge Base" subtitle="Your guide to mastering ResumeAI" />
 
         <div className="mt-10">
@@ -117,7 +118,7 @@ export default function HelpCenterScreen() {
         <div className="mt-12">
           <HelpCTA />
         </div>
-      </main>
+      </PageWithSidebar>
     </div>
   );
 }

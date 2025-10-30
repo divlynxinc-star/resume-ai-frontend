@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { FiCheck } from "react-icons/fi";
 import SiteNavbar from "../layout/site-navbar";
+import PageWithSidebar from "../layout/page-with-sidebar";
 
 
 function Badge({ children }: { children: ReactNode }) {
@@ -47,7 +48,7 @@ function PlanCard({ title, price, subtitle, button, features, highlight, label, 
         <div className={`pointer-events-none absolute -inset-3 rounded-[28px] bg-[radial-gradient(ellipse_at_center,rgba(56,189,248,0.18),transparent_60%)] blur-2xl ${isAlways ? "opacity-100" : "opacity-0 group-hover:opacity-100"} transition-opacity`} />
       ) : null}
       <div
-        className={`relative rounded-2xl bg-[#0F1629] border border-white/10 px-6 py-6 h-full ${
+        className={`relative rounded-2xl bg-[#0F1629] border border-white/10 px-8 py-8 h-full flex flex-col ${
           highlight ? "shadow-[0_0_40px_0_rgba(56,189,248,0.25)]" : ""
         } ${pop ? (isAlways ? "ring-1 ring-cyan-400/40 shadow-[0_18px_50px_rgba(56,189,248,0.35)]" : "ring-1 ring-white/10 group-hover:ring-cyan-400/40 group-hover:shadow-[0_18px_50px_rgba(56,189,248,0.35)]") : ""}`}
       >
@@ -56,18 +57,20 @@ function PlanCard({ title, price, subtitle, button, features, highlight, label, 
             {label}
           </div>
         ) : null}
-        <div className="text-white text-lg font-semibold">{title}</div>
-        <div className="mt-2 flex items-end gap-1">
-          <span className="text-3xl font-bold text-white">{price}</span>
-          {subtitle ? <span className="text-sm text-white/70">{subtitle}</span> : null}
+        <div className="min-h-[140px]">
+          <div className="text-white text-lg font-semibold">{title}</div>
+          <div className="mt-3 flex items-end gap-1">
+            <span className="text-4xl font-bold text-white">{price}</span>
+            {subtitle ? <span className="text-sm text-white/70">{subtitle}</span> : null}
+          </div>
+          <p className="mt-2 text-sm text-white/60">
+            {title === "Free" && "Perfect for getting started."}
+            {title === "Starter" && "Ideal for first-time job seekers."}
+            {title === "Premium" && "For professionals aiming high."}
+            {title === "Pro" && "For serious career builders."}
+            {title === "Enterprise" && "For teams and organizations."}
+          </p>
         </div>
-        <p className="mt-2 text-sm text-white/60">
-          {title === "Free" && "Perfect for getting started."}
-          {title === "Starter" && "Ideal for first-time job seekers."}
-          {title === "Premium" && "For professionals aiming high."}
-          {title === "Pro" && "For serious career builders."}
-          {title === "Enterprise" && "For teams and organizations."}
-        </p>
         <button
           onClick={() => {
             try {
@@ -75,11 +78,11 @@ function PlanCard({ title, price, subtitle, button, features, highlight, label, 
             } catch {}
             window.location.hash = "subscribe";
           }}
-          className={`mt-5 w-full rounded-lg px-4 py-3 text-sm font-medium ${highlight ? "bg-sky-500 text-white hover:bg-sky-400" : "bg-[#0C1426] text-white hover:bg-[#0D172B] border border-white/12"}`}
+          className={`mt-6 w-full rounded-lg px-5 py-3.5 text-base font-medium cursor-pointer ${highlight ? "bg-sky-500 text-white hover:bg-sky-400" : "bg-[#0C1426] text-white hover:bg-[#0D172B] border border-white/12"}`}
         >
           {button}
         </button>
-        <ul className="mt-5 space-y-2 text-sm">
+        <ul className="mt-6 space-y-3 text-base">
           {features.map((f) => (
             <li key={f} className="flex items-center gap-2 text-white/85">
               <FiCheck className="text-sky-400" />
@@ -111,7 +114,7 @@ export function PricingSection() {
         <StatCard value="1k+" label="Satisfied Customers" />
       </div>
 
-      <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-5">
+      <div className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
         <PlanCard
           title="Free"
           price="$0"
@@ -146,13 +149,6 @@ export function PricingSection() {
           button="Choose Pro"
           features={["500 AI Credits", "Interview Prep Module", "24/7 VIP Support"]}
         />
-        <PlanCard
-          title="Enterprise"
-          price="Custom"
-          subtitle={undefined}
-          button="Contact Sales"
-          features={["Custom Credit Pool", "Team Management", "Dedicated Account Manager"]}
-        />
       </div>
     </section>
   );
@@ -162,7 +158,9 @@ export default function PricingScreen() {
   return (
     <div className="min-h-screen w-full bg-[#0B1220] text-white">
       <SiteNavbar />
-      <PricingSection />
+      <PageWithSidebar mainClassName="">
+        <PricingSection />
+      </PageWithSidebar>
     </div>
   );
 }

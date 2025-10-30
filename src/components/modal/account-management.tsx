@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { ReactNode } from "react";
 import SiteNavbar from "../layout/site-navbar";
+import PageWithSidebar from "../layout/page-with-sidebar";
 
 function PageTitle({ children, subtitle }: { children: ReactNode; subtitle?: string }) {
   return (
@@ -61,8 +62,7 @@ export default function AccountManagementScreen() {
   return (
     <div className="min-h-svh bg-[#0b1220] text-white">
       <SiteNavbar />
-
-      <main className="mx-auto max-w-5xl px-6 pb-12">
+      <PageWithSidebar activeRoute="account" mainClassName="mx-auto max-w-5xl pb-12">
         <PageTitle subtitle="Manage your profile, security, preferences, and privacy">
           Account & Customization Hub
         </PageTitle>
@@ -189,7 +189,7 @@ export default function AccountManagementScreen() {
             Save Changes
           </button>
         </div>
-      </main>
+      </PageWithSidebar>
     </div>
   );
 }

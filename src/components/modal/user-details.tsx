@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import SiteNavbar from "../layout/site-navbar";
+import PageWithSidebar from "../layout/page-with-sidebar";
 
 // Types aligned with Resume Builder persistence
 interface Experience { role: string; company: string; location?: string; startDate?: string; endDate?: string; bullets: string[]; }
@@ -71,8 +72,7 @@ export default function UserDetailsScreen() {
   return (
     <div className="min-h-svh bg-[#0b1220] text-white">
       <SiteNavbar />
-
-      <main className="max-w-[1100px] mx-auto px-6 py-8">
+      <PageWithSidebar mainClassName="max-w-[1100px] mx-auto py-8">
         <PageHeader title="User Details" subtitle="Information saved from your AI Resume Builder." />
 
         {!resume ? (
@@ -197,7 +197,7 @@ export default function UserDetailsScreen() {
             </div>
           </div>
         )}
-      </main>
+      </PageWithSidebar>
     </div>
   );
 }

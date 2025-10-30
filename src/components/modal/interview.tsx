@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Brain, MessageSquare, Lightbulb, Code2, FolderOpen, CalendarDays } from "lucide-react";
 import SiteNavbar from "../layout/site-navbar";
+import PageWithSidebar from "../layout/page-with-sidebar";
 
 function FeaturedBadge() {
   return (
@@ -78,8 +79,7 @@ export default function InterviewScreen() {
   return (
     <div className="min-h-svh bg-[#0b1220] text-white">
       <SiteNavbar />
-
-      <main className="mx-auto max-w-[1100px] px-6 pb-16">
+      <PageWithSidebar activeRoute="interview" mainClassName="mx-auto max-w-[1100px] pb-16">
         <Hero />
 
         {/* Features Grid */}
@@ -117,7 +117,7 @@ export default function InterviewScreen() {
             icon={<CalendarDays className="size-5" />}
           />
         </div>
-      </main>
+      </PageWithSidebar>
     </div>
   );
 }

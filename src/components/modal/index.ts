@@ -22,6 +22,7 @@ export { default as ResumeComparisonScreen } from "./resume-comparison";
 export { default as ResumeGeneratedScreen } from "./resume-generated";
 export { default as SecurityScreen } from "./security";
 export { default as Signup } from "./signup";
+export { default as EnterpriseScreen } from "./enterprise";
 export { default as TailoringScreen } from "./tailoring";
 export { default as TemplatesScreen } from "./templates";
 export { default as TermsOfServiceScreen } from "./terms-of-service";
