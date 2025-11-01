@@ -30,10 +30,12 @@ A React + TypeScript + Vite project styled with Tailwind CSS v4. This repo inclu
 ## New Dependencies
 
 This project uses the following additional UI libraries:
+
 - `lucide-react` — icon set used across the dashboard.
 - `react-icons` — brand logos used on the Signup screen (Google, LinkedIn, GitHub, Facebook).
 
 If you are installing manually:
+
 - `npm install lucide-react`
 - `npm install react-icons`
 
@@ -147,3 +149,32 @@ Note: Many more screens are exported. See `src/components/modal/index.ts` for th
 ## License
 
 Proprietary project. Do not redistribute without permission.
+
+# Resume AI Frontend
+
+## Prerequisites
+
+- Docker Desktop
+- Git access to this repo
+
+## Running with Docker
+
+```bash
+# Clone (you already have access)
+git clone <private-repo-url>
+cd resume-ai-frontend
+
+# One command to run everything
+docker-compose up
+```
+
+Access at: http://localhost:3000
+
+## Development Without Docker
+
+```bash
+npm install
+npm run dev
+```
+
+Access at: http://localhost:5173
