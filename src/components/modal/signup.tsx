@@ -21,7 +21,15 @@ function BrandBar() {
   );
 }
 
-function Input({ label, type = "text", placeholder }: { label: string; type?: string; placeholder: string }) {
+function Input({
+  label,
+  type = "text",
+  placeholder,
+}: {
+  label: string;
+  type?: string;
+  placeholder: string;
+}) {
   return (
     <div className="space-y-2">
       <label className="text-xs font-medium text-white/70 ml-1">{label}</label>
@@ -34,7 +42,15 @@ function Input({ label, type = "text", placeholder }: { label: string; type?: st
   );
 }
 
-function SocialButton({ icon, label, iconClass }: { icon: ReactNode; label: string; iconClass?: string }) {
+function SocialButton({
+  icon,
+  label,
+  iconClass,
+}: {
+  icon: ReactNode;
+  label: string;
+  iconClass?: string;
+}) {
   return (
     <button className="group flex w-full items-center gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white/80 hover:text-white hover:bg-white/[0.06] hover:border-white/20 transition-all">
       <div className={`size-5 grid place-items-center transition-transform group-hover:scale-110 ${iconClass ?? "text-white/70"}`}>{icon}</div>
@@ -126,3 +142,4 @@ export default function Signup() {
     </div>
   );
 }
+
