@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { ReactNode, FormEvent } from "react";
-import { SiGoogle, SiLinkedin } from "react-icons/si";
+import { FcGoogle } from "react-icons/fc";
+import resumeLogo from "../../assets/resume-ai-logo.png";
 
 function isValidEmail(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -9,12 +10,9 @@ function isValidEmail(email: string) {
 function TopLogo() {
   return (
     <div className="flex flex-col items-center">
-      <div className="relative grid place-items-center">
-        <div className="size-10 rotate-45 rounded-md bg-[oklch(0.488_0.243_264.376)] shadow-[0_20px_40px_rgba(2,6,23,0.45)]" />
-        <div className="pointer-events-none absolute -inset-4 rounded-[20px] bg-[radial-gradient(closest-side,rgba(64,196,255,0.18),transparent_70%)] blur-xl" />
-      </div>
-      <h1 className="mt-6 text-3xl font-semibold text-white">Log in to your account</h1>
-      <p className="mt-2 text-white/60">Welcome back to Joblynk AI</p>
+      <img src={resumeLogo} alt="Jobsynk AI Logo" className="h-12 w-12 rounded-lg mb-4" />
+      <h1 className="text-3xl font-semibold text-white">Log in to your account</h1>
+      <p className="mt-2 text-white/60">Welcome back to Jobsynk AI</p>
     </div>
   );
 }
@@ -161,9 +159,8 @@ export default function LoginScreen() {
 
               <DividerLabel>Or continue with</DividerLabel>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <SocialButton icon={<SiGoogle />} label="Google" iconClass="text-[#EA4335]" />
-                <SocialButton icon={<SiLinkedin />} label="LinkedIn" iconClass="text-[#0A66C2]" />
+              <div className="grid grid-cols-1 gap-3">
+                <SocialButton icon={<FcGoogle />} label="Sign in with Google" iconClass="text-xl" />
               </div>
 
               <div className="mt-5 text-center text-xs text-white/60">

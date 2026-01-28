@@ -1,15 +1,35 @@
 import type { ReactNode, ChangeEvent } from "react";
 import { useState, useEffect } from "react";
-import { Wand2 } from "lucide-react";
+import { Wand2, AlertCircle, CheckCircle2 } from "lucide-react";
 import SiteNavbar from "../layout/site-navbar";
 import PageWithSidebar from "../layout/page-with-sidebar";
 
 
-function PageHeader() {
+function PageHeader({ mode, setMode }: { mode: 'preview' | 'ats'; setMode: (m: 'preview' | 'ats') => void }) {
+  const SwitchButton = ({ active, children, onClick }: { active: boolean; children: ReactNode; onClick: () => void }) => (
+    <button
+      onClick={onClick}
+      className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-all ${
+        active
+          ? 'bg-[oklch(0.488_0.243_264.376)] text-white shadow-lg shadow-blue-500/20'
+          : 'bg-white/5 border border-white/10 text-white/70 hover:text-white hover:bg-white/10'
+      }`}
+    >
+      {children}
+    </button>
+  );
+
   return (
-    <div>
-      <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">Magic Builder</h1>
-      <p className="text-white/60 mt-2">Build your resume in minutes with our AI-powered tools.</p>
+    <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
+      <div>
+        <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight">Magic Builder</h1>
+        <p className="text-white/60 mt-2">Build your resume in minutes with our AI-powered tools.</p>
+      </div>
+      
+      <div className="flex items-center gap-2 bg-[#0f162a] p-1.5 rounded-xl border border-white/10 self-start md:self-center">
+        <SwitchButton active={mode === 'preview'} onClick={() => setMode('preview')}>Resume Preview</SwitchButton>
+        <SwitchButton active={mode === 'ats'} onClick={() => setMode('ats')}>ATS Score</SwitchButton>
+      </div>
     </div>
   );
 }
@@ -139,30 +159,32 @@ function TextArea({ placeholder = "", value, onChange, rows = 4 }: { placeholder
 // Forms per section
 function PersonalInfoForm({ resume, setResume }: { resume: ResumeData; setResume: (r: ResumeData) => void }) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div>
-        <Label>Full Name</Label>
-        <TextInput value={resume.name} onChange={(v) => setResume({ ...resume, name: v })} placeholder="" />
-      </div>
-      <div>
-        <Label>Email</Label>
-        <TextInput value={resume.email} onChange={(v) => setResume({ ...resume, email: v })} placeholder="" />
-      </div>
-      <div>
-        <Label>Phone</Label>
-        <TextInput value={resume.phone} onChange={(v) => setResume({ ...resume, phone: v })} placeholder="" />
-      </div>
-      <div>
-        <Label>Location</Label>
-        <TextInput value={resume.location} onChange={(v) => setResume({ ...resume, location: v })} placeholder="" />
-      </div>
-      <div className="md:col-span-2">
-        <Label>LinkedIn Profile URL</Label>
-        <TextInput value={resume.linkedin} onChange={(v) => setResume({ ...resume, linkedin: v })} placeholder="" />
-      </div>
-      <div className="md:col-span-2">
-        <Label>Portfolio URL</Label>
-        <TextInput value={resume.portfolio} onChange={(v) => setResume({ ...resume, portfolio: v })} placeholder="" />
+    <div className="rounded-xl border border-white/10 p-4 bg-white/[0.04]">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <Label>Full Name</Label>
+          <TextInput value={resume.name} onChange={(v) => setResume({ ...resume, name: v })} placeholder="" />
+        </div>
+        <div>
+          <Label>Email</Label>
+          <TextInput value={resume.email} onChange={(v) => setResume({ ...resume, email: v })} placeholder="" />
+        </div>
+        <div>
+          <Label>Phone</Label>
+          <TextInput value={resume.phone} onChange={(v) => setResume({ ...resume, phone: v })} placeholder="" />
+        </div>
+        <div>
+          <Label>Location</Label>
+          <TextInput value={resume.location} onChange={(v) => setResume({ ...resume, location: v })} placeholder="" />
+        </div>
+        <div className="md:col-span-2">
+          <Label>LinkedIn Profile URL</Label>
+          <TextInput value={resume.linkedin} onChange={(v) => setResume({ ...resume, linkedin: v })} placeholder="" />
+        </div>
+        <div className="md:col-span-2">
+          <Label>Portfolio URL</Label>
+          <TextInput value={resume.portfolio} onChange={(v) => setResume({ ...resume, portfolio: v })} placeholder="" />
+        </div>
       </div>
     </div>
   );
@@ -393,44 +415,24 @@ function CustomSectionsForm({ resume, setResume }: { resume: ResumeData; setResu
 function AIAssistantCard() {
   return (
     <div className="relative rounded-2xl bg-white/5 border border-white/10 p-6">
-      <span className="absolute -top-2 -right-2 rounded-full bg-blue-600/20 text-blue-300 text-[10px] font-semibold px-2 py-1 border border-blue-500/40 shadow-[0_6px_16px_rgba(59,130,246,0.35)]">FEATURED</span>
+      <span className="absolute -top-2 -right-2 rounded-full bg-blue-600/20 text-blue-300 text-[10px] font-semibold px-2 py-1 border border-blue-500/60 shadow-[0_0_20px_rgba(59,130,246,0.6)]">FEATURED</span>
       <div className="flex items-center gap-2">
         <Wand2 className="size-4 text-white/80" />
         <div className="font-semibold">AI Assistant</div>
       </div>
       <p className="text-sm text-white/60 mt-2">Get personalized suggestions and generate content with AI.</p>
-      <a href="#ai-chat" className="mt-4 w-full rounded-lg bg-[oklch(0.488_0.243_264.376)] px-4 py-2 text-sm text-white inline-flex items-center justify-center">Generate with Juno</a>
+      <a href="#ai-chat" className="mt-4 w-full rounded-lg border border-blue-500/30 bg-transparent px-4 py-2 text-sm text-blue-100 shadow-[0_0_10px_rgba(59,130,246,0.1)] transition-all hover:bg-blue-500/10 hover:border-blue-400 hover:shadow-[0_0_20px_rgba(59,130,246,0.3)] inline-flex items-center justify-center">Generate with Juno AI</a>
     </div>
   );
 }
 
-function ResumePreview() {
-  const [mode, setMode] = useState<'preview' | 'ats'>('preview');
-  const SwitchButton = ({ active, children, onClick }: { active: boolean; children: ReactNode; onClick: () => void }) => (
-    <button
-      onClick={onClick}
-      className={`rounded-lg px-3 py-1 text-xs ${
-        active
-          ? 'bg-[oklch(0.488_0.243_264.376)] text-white'
-          : 'bg-white/6 border border-white/12 text-white/80 hover:text-white'
-      }`}
-    >
-      {children}
-    </button>
-  );
-
+function ResumePreview({ mode }: { mode: 'preview' | 'ats' }) {
   return (
     <div>
-      <div className="flex items-center justify-between">
-        <div className="font-semibold">{mode === 'preview' ? 'Resume Preview' : 'ATS Score'}</div>
-        <div className="flex items-center gap-2">
-          <SwitchButton active={mode === 'preview'} onClick={() => setMode('preview')}>Resume Preview</SwitchButton>
-          <SwitchButton active={mode === 'ats'} onClick={() => setMode('ats')}>ATS Score</SwitchButton>
-        </div>
-      </div>
+      <div className="font-semibold mb-4">{mode === 'preview' ? 'Resume Preview' : 'ATS Score'}</div>
 
       {mode === 'preview' ? (
-        <div className="mt-4 rounded-2xl bg-[#0f162a] border border-white/10 p-6 flex items-center justify-center">
+        <div className="rounded-2xl bg-[#0f162a] border border-white/10 p-6 flex items-center justify-center">
           {/* Beige board background */}
           <div className="w-[280px] h-[380px] rounded-xl bg-[#e9c5a6] shadow-inner flex items-center justify-center">
             {/* Paper */}
@@ -453,67 +455,70 @@ function ResumePreview() {
           </div>
         </div>
       ) : (
-        <div className="mt-4 rounded-2xl bg-[#0f162a] border border-white/10 p-6">
-          <div className="flex items-center justify-between">
+        <div className="rounded-2xl bg-[#0f162a] border border-white/10 p-6 relative overflow-hidden group">
+          {/* Background glow */}
+          <div className="absolute top-0 right-0 -mt-12 -mr-12 w-48 h-48 bg-blue-500/10 blur-[60px] rounded-full pointer-events-none" />
+          
+          <div className="flex items-center justify-between mb-8 relative z-10">
             <div>
-              <div className="text-sm text-white/70">Overall ATS Score</div>
-              <div className="text-3xl font-semibold mt-1">86/100</div>
+              <div className="text-sm font-medium text-white/60">Overall ATS Score</div>
+              <div className="text-4xl font-bold mt-2 bg-gradient-to-r from-white via-white to-white/60 bg-clip-text text-transparent">86/100</div>
+              <div className="text-xs text-emerald-400 mt-2 font-medium flex items-center gap-1.5">
+                 <CheckCircle2 className="size-3.5" />
+                 <span>Excellent Score</span>
+              </div>
             </div>
-            <div className="size-20 rounded-full grid place-items-center bg-white/8 border border-white/15 text-white/80">
-              86%
+            
+            {/* Circular Progress */}
+            <div className="relative size-24">
+               <svg className="size-full -rotate-90">
+                 <circle cx="48" cy="48" r="42" stroke="currentColor" strokeWidth="8" fill="transparent" className="text-white/5" />
+                 <circle cx="48" cy="48" r="42" stroke="currentColor" strokeWidth="8" fill="transparent" strokeDasharray="263.89" strokeDashoffset="36.94" strokeLinecap="round" className="text-blue-500 drop-shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
+               </svg>
+               <div className="absolute inset-0 flex items-center justify-center text-xl font-bold text-white">86%</div>
             </div>
           </div>
 
-          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <div className="text-white/70 text-xs">Keyword Match</div>
-              <div className="mt-2 h-2 rounded bg-white/10">
-                <div className="h-2 rounded bg-blue-600" style={{ width: '82%' }} />
-              </div>
-              <div className="mt-1 text-white/50 text-xs">Matched 41/50 role keywords</div>
-            </div>
-            <div>
-              <div className="text-white/70 text-xs">Formatting & Structure</div>
-              <div className="mt-2 h-2 rounded bg-white/10">
-                <div className="h-2 rounded bg-blue-600" style={{ width: '88%' }} />
-              </div>
-              <div className="mt-1 text-white/50 text-xs">Consistent headings, bullet points, and spacing</div>
-            </div>
-            <div>
-              <div className="text-white/70 text-xs">Contact Info Completeness</div>
-              <div className="mt-2 h-2 rounded bg-white/10">
-                <div className="h-2 rounded bg-blue-600" style={{ width: '95%' }} />
-              </div>
-              <div className="mt-1 text-white/50 text-xs">Email, phone, LinkedIn present</div>
-            </div>
-            <div>
-              <div className="text-white/70 text-xs">Section Detection</div>
-              <div className="mt-2 h-2 rounded bg-white/10">
-                <div className="h-2 rounded bg-blue-600" style={{ width: '78%' }} />
-              </div>
-              <div className="mt-1 text-white/50 text-xs">Experience, Education, Skills, Summary detected</div>
-            </div>
-            <div>
-              <div className="text-white/70 text-xs">Readability</div>
-              <div className="mt-2 h-2 rounded bg-white/10">
-                <div className="h-2 rounded bg-blue-600" style={{ width: '84%' }} />
-              </div>
-              <div className="mt-1 text-white/50 text-xs">Clear phrasing and action verbs</div>
-            </div>
-            <div>
-              <div className="text-white/70 text-xs">ATS Compatibility</div>
-              <div className="mt-2 h-2 rounded bg-white/10">
-                <div className="h-2 rounded bg-blue-600" style={{ width: '89%' }} />
-              </div>
-              <div className="mt-1 text-white/50 text-xs">Simple layout, parsable text</div>
-            </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-6 relative z-10">
+            {[
+              { label: "Keyword Match", score: 82, desc: "Matched 41/50 role keywords", color: "bg-emerald-500" },
+              { label: "Formatting & Structure", score: 88, desc: "Consistent headings, bullet points", color: "bg-blue-500" },
+              { label: "Contact Info", score: 95, desc: "Email, phone, LinkedIn present", color: "bg-indigo-500" },
+              { label: "Section Detection", score: 78, desc: "All core sections detected", color: "bg-violet-500" },
+              { label: "Readability", score: 84, desc: "Clear phrasing and action verbs", color: "bg-sky-500" },
+              { label: "ATS Compatibility", score: 89, desc: "Simple layout, parsable text", color: "bg-cyan-500" },
+            ].map((item) => (
+               <div key={item.label} className="group/item">
+                 <div className="flex justify-between text-xs mb-2">
+                   <span className="text-white/90 font-medium group-hover/item:text-blue-400 transition-colors">{item.label}</span>
+                   <span className="text-white/60 font-mono">{item.score}%</span>
+                 </div>
+                 <div className="h-2 w-full rounded-full bg-white/5 overflow-hidden ring-1 ring-white/5">
+                   <div className={`h-full rounded-full ${item.color} shadow-[0_0_10px_rgba(0,0,0,0.2)] transition-all duration-1000 ease-out`} style={{ width: `${item.score}%` }} />
+                 </div>
+                 <div className="mt-1.5 text-[11px] text-white/40 leading-relaxed">{item.desc}</div>
+               </div>
+            ))}
           </div>
 
-          <div className="mt-6 text-xs text-white/70 space-y-2">
-            <div>• Add keyword “Agile” in Experience section</div>
-            <div>• Consider a dedicated “Skills” header for better parsing</div>
-            <div>• Replace images/icons with plain text for ATS</div>
-            <div>• Use consistent date format (e.g., Jan 2022 – Present)</div>
+          <div className="mt-8 pt-6 border-t border-white/10 relative z-10">
+            <h4 className="text-sm font-semibold text-white/90 mb-4 flex items-center gap-2">
+              <AlertCircle className="size-4 text-amber-400" />
+              Improvement Suggestions
+            </h4>
+            <div className="space-y-3">
+              {[
+                "Add keyword “Agile” in Experience section",
+                "Consider a dedicated “Skills” header for better parsing",
+                "Replace images/icons with plain text for ATS",
+                "Use consistent date format (e.g., Jan 2022 – Present)"
+              ].map((tip, i) => (
+                <div key={i} className="flex gap-3 text-xs text-white/70 group/tip hover:text-white/90 transition-colors">
+                  <div className="mt-1 size-1.5 rounded-full bg-amber-500/40 group-hover/tip:bg-amber-400 shrink-0" />
+                  <span className="leading-relaxed">{tip}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       )}
@@ -523,6 +528,7 @@ function ResumePreview() {
 
 export default function ResumeBuilderScreen() {
   const [activeTab, setActiveTab] = useState<TabKey>('personal');
+  const [previewMode, setPreviewMode] = useState<'preview' | 'ats'>('preview');
   const [resume, setResume] = useState<ResumeData>(() => {
     try {
       const raw = localStorage.getItem('resumeData');
@@ -600,7 +606,7 @@ export default function ResumeBuilderScreen() {
       <PageWithSidebar activeRoute="my-resumes" mainClassName="max-w-[1100px] mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Left (main form) */}
         <div className="lg:col-span-2">
-          <PageHeader />
+          <PageHeader mode={previewMode} setMode={setPreviewMode} />
           <Tabs active={activeTab} onChange={setActiveTab} />
 
           <div className="mt-6">
@@ -609,14 +615,14 @@ export default function ResumeBuilderScreen() {
 
           <div className="mt-6 flex justify-between">
             <button className="rounded-lg border border-white/15 px-5 py-2 text-sm text-white/80 hover:bg-white/[0.06]" onClick={goPrev}>Back</button>
-            <button className="rounded-lg bg-[oklch(0.488_0.243_264.376)] px-5 py-2 text-sm text-white" onClick={goNext}>Next</button>
+            <button className="rounded-lg bg-[oklch(0.488_0.243_264.376)] px-5 py-2 text-sm text-white" onClick={goNext}>Save & Next</button>
           </div>
         </div>
 
         {/* Right side: assistant + preview */}
         <div className="space-y-8">
           <AIAssistantCard />
-          <ResumePreview />
+          <ResumePreview mode={previewMode} />
         </div>
       </PageWithSidebar>
 

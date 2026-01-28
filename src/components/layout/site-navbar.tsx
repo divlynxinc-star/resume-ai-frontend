@@ -1,14 +1,10 @@
 import { useEffect, useRef, useState, type JSX } from "react";
-import { Bell, User2, Settings, Coins, LogOut, MessageSquare, Wand2, FileText, CheckCircle, Building2, Crown } from "lucide-react";
+import { createPortal } from "react-dom";
+import { Bell, User2, Coins, LogOut, MessageSquare, Wand2, FileText, CheckCircle, Building2, Crown, Moon } from "lucide-react";
 import resumeLogo from "../../assets/resume-ai-logo.png";
 
 export default function SiteNavbar() {
-  // Determine current route from hash and build link classes
-  const current = typeof window !== 'undefined' ? window.location.hash.replace(/^#/, '') : '';
-  const linkClass = (route: string) =>
-    current === route
-      ? "text-white font-semibold"
-      : "text-white/80 hover:text-white";
+
 
   // Profile dropdown state & refs
   const [profileOpen, setProfileOpen] = useState(false);
@@ -64,12 +60,15 @@ export default function SiteNavbar() {
     } catch {}
     return 3; // fallback demo count
   });
-  const notifications: { id: string; title: string; desc: string; icon: JSX.Element; time: string }[] = [
+
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+
+  const [notifications, setNotifications] = useState<{ id: string; title: string; desc: string; icon: JSX.Element; time: string }[]>([
     { id: "n1", title: "Resume exported", desc: "Your PDF is ready to download.", icon: <FileText className="size-4 text-blue-400" />, time: "2m" },
     { id: "n2", title: "AI suggestion", desc: "Improve your summary with AI.", icon: <Wand2 className="size-4 text-purple-400" />, time: "10m" },
     { id: "n3", title: "New message", desc: "Recruiter replied to your application.", icon: <MessageSquare className="size-4 text-emerald-400" />, time: "1h" },
     { id: "n4", title: "Plan upgraded", desc: "Premium features unlocked.", icon: <CheckCircle className="size-4 text-cyan-400" />, time: "1d" },
-  ];
+  ]);
 
   useEffect(() => {
     const onDocClick = (e: MouseEvent) => {
@@ -95,54 +94,47 @@ export default function SiteNavbar() {
 
   return (
     <header className="sticky top-0 z-30 h-16 border-b border-white/10 bg-[#0b1220]/80 backdrop-blur supports-[backdrop-filter]:bg-[#0b1220]/60">
+      {showLogoutModal && createPortal(
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-[2px] p-4">
+          <div className="w-full max-w-sm rounded-xl border border-white/10 bg-[#0f1629] p-6 shadow-2xl transform transition-all">
+            <h3 className="text-lg font-semibold text-white">Log out?</h3>
+            <p className="mt-2 text-sm text-white/70">Are you sure you want to log out of your account?</p>
+            <div className="mt-6 flex justify-end gap-3">
+              <button 
+                onClick={() => setShowLogoutModal(false)} 
+                className="rounded-lg px-4 py-2 text-sm font-medium text-white/70 hover:bg-white/5 hover:text-white transition-colors"
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={() => {
+                  logout();
+                  setShowLogoutModal(false);
+                }} 
+                className="rounded-lg bg-red-500/10 px-4 py-2 text-sm font-medium text-red-400 hover:bg-red-500/20 transition-colors"
+              >
+                Log out
+              </button>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
       <div className="mx-auto max-w-7xl h-full px-6 flex items-center justify-between">
         
         {/* Brand */}
         <a href="#home" className="flex items-center gap-3">
-          <img src={resumeLogo} alt="ResumeCraft AI Logo" className="h-10 w-10 rounded-md" />
-          <span className="text-white font-semibold text-lg tracking-wide">
+          <img src={resumeLogo} alt="ResumeCraft AI Logo" className="h-8 w-8 rounded-md" />
+          <span className="text-white text-xl font-black tracking-tight">
             Jobsynk AI
           </span>
         </a>
 
-        {/* Nav links */}
-        <nav className="hidden md:flex items-center gap-8 ml-16 text-sm">
-          <a
-            href="#dashboard"
-            className={linkClass("dashboard")}
-            onClick={(e) => {
-              e.preventDefault();
-              const token = localStorage.getItem("authToken");
-              const firstShown = localStorage.getItem("firstLoginShown");
-              if (!token) {
-                window.location.hash = "#login";
-                return;
-              }
-              if (!firstShown) {
-                window.location.hash = "#onboarding";
-                return;
-              }
-              window.location.hash = "#dashboard";
-            }}
-          >
-            Dashboard
-          </a>
-          {/*<a href="#resumes" className={linkClass("resumes")} >AI Builder</a>*/}
-          <a href="#templates" className={linkClass("templates")} >Templates</a>
-          <a href="#tailoring" className={linkClass("tailoring")} >AI Tools</a>
-          <a href="#pricing" className={linkClass("pricing")} >Pricing</a>
-          <a href="#user-details" className={linkClass("user-details")} >Your Profile</a>
-        </nav>
+
 
         {/* Right: actions */}
         <div className="flex items-center gap-4 ml-auto relative">
-          <button
-            onClick={() => { window.location.hash = "#resumes"; }}
-            className="rounded-lg px-2.5 py-1.5 bg-white/5 border border-white/10 text-white/80 text-xs hover:text-white"
-            aria-label="New Resume"
-          >
-            + New Resume
-          </button>
+
           <div ref={profileRef} className="relative">
             <button
               onClick={() => setProfileOpen((o) => !o)}
@@ -166,13 +158,7 @@ export default function SiteNavbar() {
                   </div>
                   <div className="text-sm text-white/90">Credits: <span className="font-semibold text-white">{credits}</span></div>
                 </div>
-                <div className="h-px bg-white/10" />
-                <button
-                  onClick={() => { window.location.hash = "#account"; }}
-                  className="w-full text-left px-3 py-2.5 flex items-center gap-2 text-sm text-white/80 hover:text-white hover:bg-white/5"
-                >
-                  <Settings className="size-4" /> Manage Account
-                </button>
+
                 <div className="h-px bg-white/10" />
                 <button
                   onClick={() => { window.location.hash = "#enterprise"; }}
@@ -182,7 +168,7 @@ export default function SiteNavbar() {
                 </button>
                 <div className="h-px bg-white/10" />
                 <button
-                  onClick={logout}
+                  onClick={() => setShowLogoutModal(true)}
                   className="w-full text-left px-3 py-2.5 flex items-center gap-2 text-sm text-white/80 hover:text-white hover:bg-white/5"
                 >
                   <LogOut className="size-4" /> Logout
@@ -211,6 +197,7 @@ export default function SiteNavbar() {
                     className="text-xs text-white/70 hover:text-white"
                     onClick={() => {
                       setNotifCount(0);
+                      setNotifications([]);
                       try { sessionStorage.setItem("notificationCount", "0"); } catch {}
                     }}
                   >
@@ -219,7 +206,8 @@ export default function SiteNavbar() {
                 </div>
                 <div className="h-px bg-white/10" />
                 <ul className="max-h-64 overflow-auto py-2">
-                  {notifications.slice(0, 6).map((n) => (
+                  {notifications.length > 0 ? (
+                    notifications.slice(0, 6).map((n) => (
                     <li key={n.id} className="px-3 py-2.5 flex items-start gap-3 hover:bg-white/5">
                       <div className="size-7 rounded-md bg-white/5 border border-white/10 grid place-items-center shrink-0">
                         {n.icon}
@@ -230,7 +218,16 @@ export default function SiteNavbar() {
                       </div>
                       <div className="text-[11px] text-white/50">{n.time}</div>
                     </li>
-                  ))}
+                    ))
+                  ) : (
+                    <li className="px-6 py-8 flex flex-col items-center justify-center text-center">
+                      <div className="size-10 rounded-full bg-white/5 border border-white/10 grid place-items-center mb-3">
+                        <Moon className="size-5 text-white/40" />
+                      </div>
+                      <p className="text-sm text-white/70 font-medium">No new notifications</p>
+                      <p className="text-xs text-white/40 mt-1">You're all caught up!</p>
+                    </li>
+                  )}
                 </ul>
               </div>
             )}

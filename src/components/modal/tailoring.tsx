@@ -80,7 +80,7 @@ function Hero() {
       </div>
 
       <div className="max-w-[1100px] mx-auto px-6 pt-14 text-center">
-        <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight">How Resume Tailoring Works</h1>
+        <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight">How Resume Tailoring Works</h1>
         <div className="h-[3px] w-28 bg-blue-500/80 mx-auto mt-4 rounded-full" />
         <p className="text-white/70 mt-4 max-w-2xl mx-auto">
           Our AI-powered system analyzes job descriptions and optimizes your resume for each application,

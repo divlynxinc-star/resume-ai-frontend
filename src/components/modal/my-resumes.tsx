@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
+import { Search } from "lucide-react";
 import SiteNavbar from "../layout/site-navbar";
-import { Sidebar } from "./dashboard";
+import PageWithSidebar from "../layout/page-with-sidebar";
 import noResumeIllustration from "../../assets/no-resume.png";
 
 // Lightweight types. Adjust if your builder persists richer resume data.
@@ -82,6 +83,7 @@ function ResumeCard({ item }: { item: ResumeItem }) {
 
 export default function MyResumesScreen() {
   const [resumes, setResumes] = useState<ResumeItem[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     try {
@@ -110,35 +112,65 @@ export default function MyResumesScreen() {
   }, []);
 
   const hasResumes = resumes.length > 0;
+  const filteredResumes = resumes.filter((r) =>
+    r.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="min-h-svh bg-[#0b1220] text-white">
       <SiteNavbar />
 
-      <div className="grid grid-cols-[260px_1fr] min-h-[calc(100vh-56px)]">
-        <Sidebar activeRoute="my-resumes" />
+      <PageWithSidebar activeRoute="my-resumes">
         <main className="px-6 py-4">
           <div className="mx-auto max-w-6xl">
-            <div className="flex items-center justify-start">
-              <h1 className="text-2xl font-semibold">My Resumes</h1>
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <h1 className="text-2xl font-black tracking-tight">My Resumes</h1>
+              
+              {/* Search Bar */}
+              <div className="relative w-full md:w-80 group">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Search className="size-4 text-white/40 group-focus-within:text-blue-400 transition-colors" />
+                </div>
+                <input
+                  type="text"
+                  placeholder="Search resumes..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="block w-full rounded-xl border border-white/10 bg-white/[0.03] pl-10 pr-4 py-2 text-sm text-white placeholder-white/30 focus:border-blue-500/50 focus:bg-white/[0.05] focus:ring-1 focus:ring-blue-500/20 focus:outline-none transition-all"
+                />
+              </div>
             </div>
 
-            <div className="mt-4">
+            <div className="mt-6">
               {!hasResumes ? (
                 <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-5 sm:p-6 grid justify-items-center items-start min-h-[320px]">
                   <EmptyState />
                 </div>
+              ) : filteredResumes.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-20 text-center rounded-2xl border border-white/10 bg-white/[0.02]">
+                   <div className="p-4 rounded-full bg-white/5 mb-4">
+                      <Search className="size-8 text-white/20" />
+                   </div>
+                   <h3 className="text-lg font-medium text-white/80">No matches found</h3>
+                   <p className="text-sm text-white/50 mt-1">Try searching for a different resume name.</p>
+                   <button 
+                     onClick={() => setSearchQuery("")}
+                     className="mt-6 text-sm text-blue-400 hover:text-blue-300 transition-colors"
+                   >
+                     Clear search
+                   </button>
+                </div>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {resumes.map((item) => (
-                    <ResumeCard key={item.id} item={item} />)
-                  )}
+                  {filteredResumes.map((item) => (
+                    <ResumeCard key={item.id} item={item} />
+                  ))}
                 </div>
               )}
             </div>
           </div>
         </main>
-      </div>
+      </PageWithSidebar>
     </div>
   );
 }

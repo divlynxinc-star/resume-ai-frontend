@@ -1,4 +1,3 @@
-import { Linkedin, Instagram, Mail } from "lucide-react";
 import resumeLogo from "../../assets/resume-ai-logo.png";
 
 function Brand() {
@@ -8,41 +7,15 @@ function Brand() {
         <img
           src={resumeLogo}
           alt="ResumeCraft AI Logo"
-          className="h-14 w-14 rounded-md"
+          className="h-10 w-10 rounded-md"
         />
-        <span className="text-white font-semibold">Jobsynk AI</span>
+        <span className="text-white text-2xl font-black tracking-tight">Jobsynk AI</span>
       </div>
 
-      <p className="text-white/70 text-sm mt-3 max-w-[280px]">
+      <p className="text-white/60 text-sm mt-4 max-w-[280px] leading-relaxed">
         Create professional, ATS-friendly, and industry-accepted resumes in minutes
         with our AI-powered builder.
       </p>
-
-      <div className="mt-4 flex items-center gap-3">
-        <a
-          href="#"
-          aria-label="LinkedIn"
-          className="size-8 rounded-full bg-white/5 border border-white/10 grid place-items-center text-white/70 hover:text-white transition"
-        >
-          <Linkedin className="size-4" />
-        </a>
-
-        <a
-          href="#"
-          aria-label="Instagram"
-          className="size-8 rounded-full bg-white/5 border border-white/10 grid place-items-center text-white/70 hover:text-white transition"
-        >
-          <Instagram className="size-4" />
-        </a>
-
-        <a
-          href="mailto:hello@resumecraft.ai"
-          aria-label="Email"
-          className="size-8 rounded-full bg-white/5 border border-white/10 grid place-items-center text-white/70 hover:text-white transition"
-        >
-          <Mail className="size-4" />
-        </a>
-      </div>
     </div>
   );
 }
@@ -83,8 +56,8 @@ function Column({
 
 export default function SiteFooter() {
   return (
-    <footer className="text-white">
-      <div className="max-w-[1100px] mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-4 gap-10">
+    <footer className="text-white border-t border-white/10 bg-[#0b1220]">
+      <div className="max-w-7xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-4 gap-12">
         <Brand />
 
         <Column
@@ -118,8 +91,11 @@ export default function SiteFooter() {
         />
       </div>
 
-      <div className="max-w-[1100px] mx-auto px-6 border-t border-white/10 py-4 text-white/60 text-xs">
-        © 2025 Jobsynk AI. All rights reserved.
+      <div className="max-w-7xl mx-auto px-6 border-t border-white/5 py-8 text-white/40 text-sm flex flex-col md:flex-row justify-between items-center gap-4">
+        <p>© 2025 Jobsynk AI. All rights reserved.</p>
+        <div className="flex items-center gap-6">
+           {/* Placeholder for future bottom links if needed */}
+        </div>
       </div>
     </footer>
   );
