@@ -3,7 +3,7 @@ import resumeTemplate from "../../assets/resume-template.png";
 function SectionTitle({ title, subtitle }: { title: string; subtitle?: string }) {
   return (
     <div className="text-center">
-      <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-white">{title}</h2>
+      <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-white">{title}</h2>
       <div className="mt-3 flex justify-center"><span className="block h-1 w-40 rounded-full bg-[#2b5bd9]" /></div>
       {subtitle ? (
         <p className="mt-2 text-sm text-white/60 max-w-2xl mx-auto">{subtitle}</p>

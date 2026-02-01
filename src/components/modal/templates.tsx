@@ -1,17 +1,6 @@
-import { FiChevronDown } from 'react-icons/fi';
 import SiteNavbar from "../layout/site-navbar";
 import PageWithSidebar from "../layout/page-with-sidebar";
 import resumeTemplate from "../../assets/resume-template.png";
-
-
-function FilterPill({ label }: { label: string }) {
-  return (
-    <button className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] text-white/80 px-4 py-2 text-sm hover:bg-white/[0.06] cursor-pointer transition">
-      <span>{label}</span>
-      <FiChevronDown className="h-4 w-4 text-white/70" />
-    </button>
-  );
-}
 
 
 function TemplateCard({ title, bg }: { title: string; bg: string }) {
@@ -63,13 +52,8 @@ export default function TemplatesScreen() {
       <PageWithSidebar activeRoute="templates" mainClassName="mx-auto max-w-7xl pb-24">
         <div className="flex items-start justify-between pt-10">
           <div>
-            <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">Choose Your Template</h1>
+            <h1 className="text-3xl font-bold tracking-tight">Choose Your Template</h1>
             <p className="mt-2 text-sm text-white/60">Explore our range of expertly crafted, ATS-friendly resume templates.</p>
-          </div>
-          <div className="flex items-center gap-3">
-            <FilterPill label="Style" />
-            <FilterPill label="Industry" />
-            <FilterPill label="Popularity" />
           </div>
         </div>
 

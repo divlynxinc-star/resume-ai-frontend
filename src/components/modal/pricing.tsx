@@ -1,27 +1,9 @@
-import type { ReactNode } from "react";
 import { FiCheck } from "react-icons/fi";
 import SiteNavbar from "../layout/site-navbar";
 import PageWithSidebar from "../layout/page-with-sidebar";
 
 
-function Badge({ children }: { children: ReactNode }) {
-  return (
-    <span className="inline-flex items-center rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-white/80">
-      {children}
-    </span>
-  );
-}
 
-function StatCard({ value, label }: { value: string; label: string }) {
-  return (
-    <div className="relative rounded-xl p-px bg-gradient-to-r from-cyan-500/30 to-indigo-600/30">
-      <div className="rounded-xl bg-[#0F1629] border border-white/10 px-8 py-6 text-center">
-        <div className="text-2xl font-semibold text-white">{value}</div>
-        <div className="mt-1 text-sm text-white/60">{label}</div>
-      </div>
-    </div>
-  );
-}
 
 type PlanProps = {
   title: string;
@@ -49,7 +31,7 @@ function PlanCard({ title, price, subtitle, button, features, highlight, label, 
       ) : null}
       <div
         className={`relative rounded-2xl bg-[#0F1629] border border-white/10 px-8 py-8 h-full flex flex-col ${
-          highlight ? "shadow-[0_0_40px_0_rgba(56,189,248,0.25)]" : ""
+          highlight ? "shadow-[0_0_50px_0_rgba(56,189,248,0.6)] border-sky-500/30" : ""
         } ${pop ? (isAlways ? "ring-1 ring-cyan-400/40 shadow-[0_18px_50px_rgba(56,189,248,0.35)]" : "ring-1 ring-white/10 group-hover:ring-cyan-400/40 group-hover:shadow-[0_18px_50px_rgba(56,189,248,0.35)]") : ""}`}
       >
         {label ? (
@@ -78,7 +60,7 @@ function PlanCard({ title, price, subtitle, button, features, highlight, label, 
             } catch {}
             window.location.hash = "subscribe";
           }}
-          className={`mt-6 w-full rounded-lg px-5 py-3.5 text-base font-medium cursor-pointer ${highlight ? "bg-sky-500 text-white hover:bg-sky-400" : "bg-[#0C1426] text-white hover:bg-[#0D172B] border border-white/12"}`}
+          className={`mt-6 w-full rounded-lg px-5 py-3.5 text-base font-medium cursor-pointer bg-[#0C1426] text-white hover:bg-[#0D172B] border border-white/12`}
         >
           {button}
         </button>
@@ -97,22 +79,12 @@ function PlanCard({ title, price, subtitle, button, features, highlight, label, 
 
 export function PricingSection() {
   return (
-    <section className="mx-auto max-w-6xl px-4 pt-12 pb-20">
-      <div className="flex items-center gap-3">
-        <Badge>PAY AS YOU GROW</Badge>
-        <Badge>CREDIT-BASED</Badge>
-      </div>
-      <h1 className="mt-6 text-4xl md:text-6xl font-extrabold tracking-tight">Intelligent Pricing for Your Success</h1>
-      <p className="mt-3 max-w-3xl text-white/70">
-        Our AI-powered platform operates on a credit system, ensuring you only pay for the features you actually use. Start for free and scale up as your career grows.
+    <section className="mx-auto max-w-6xl px-4 pt-4 pb-20 text-center">
+      <h1 className="mt-2 text-2xl md:text-3xl font-extrabold tracking-tight">Intelligent Pricing for Your Success</h1>
+      <div className="h-[3px] w-28 bg-blue-500/80 mx-auto mt-4 rounded-full" />
+      <p className="mt-4 max-w-3xl mx-auto text-white/70">
+        Our AI-powered platform operates on a credit-based system, ensuring you pay as you grow and only pay for the features you actually use. Start for free and scale up as your career grows.
       </p>
-
-      <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <StatCard value="50" label="AI Credits" />
-        <StatCard value="12+" label="ATS Friendly Templates" />
-        <StatCard value="24h" label="Client Support" />
-        <StatCard value="1k+" label="Satisfied Customers" />
-      </div>
 
       <div className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
         <PlanCard
@@ -121,23 +93,19 @@ export function PricingSection() {
           subtitle="/ forever"
           button="Get Started"
           features={["5 AI Credits", "Basic Templates", "Standard Support"]}
-          label="Head Start"
-          labelClassName="bg-white text-[#0b1220] font-bold shadow-[0_8px_20px_rgba(255,255,255,0.25)] border border-white/20"
-          pop
-          popMode="always"
         />
         <PlanCard
           title="Starter"
           price="$9.99"
           subtitle="/ 50 credits"
-          button="Choose Starter"
+          button="Get Starter"
           features={["50 AI Credits", "All Templates", "Priority Support"]}
         />
         <PlanCard
           title="Premium"
           price="$29.99"
           subtitle="/ 200 credits"
-          button="Choose Premium"
+          button="Get Premium"
           features={["200 AI Credits", "AI Cover Letters", "Premium Support"]}
           highlight
           label="Most Popular"
@@ -146,8 +114,8 @@ export function PricingSection() {
           title="Pro"
           price="$49.99"
           subtitle="/ 500 credits"
-          button="Choose Pro"
-          features={["500 AI Credits", "Interview Prep Module", "24/7 VIP Support"]}
+          button="Get Pro"
+          features={["500 AI Credits", "Interview Prep", "24/7 VIP Support"]}
         />
       </div>
     </section>
