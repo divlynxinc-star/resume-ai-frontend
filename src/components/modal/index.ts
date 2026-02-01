@@ -25,6 +25,8 @@ export { default as Signup } from "./signup";
 export { default as EnterpriseScreen } from "./enterprise";
 export { default as TailoringScreen } from "./tailoring";
 export { default as TemplatesScreen } from "./templates";
+export { default as TemplateEditorScreen } from "./template-editor";
+export { default as TemplatePreviewScreen } from "./template-preview";
 export { default as TermsOfServiceScreen } from "./terms-of-service";
 export { default as TestimonialsScreen } from "./testimonials";
 export { default as UserProfileScreen } from "./user-profile";

@@ -1,8 +1,11 @@
 import type { ReactNode, ChangeEvent } from "react";
-import { useState, useEffect } from "react";
-import { Wand2, AlertCircle, CheckCircle2 } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { Wand2, AlertCircle, CheckCircle2, X, Download, ChevronDown } from "lucide-react";
 import SiteNavbar from "../layout/site-navbar";
 import PageWithSidebar from "../layout/page-with-sidebar";
+import { ModernTemplate, ClassicTemplate, CreativeTemplate, ATSFriendlyTemplate } from "../templates";
+import { templateConfigs, type TemplateId } from "../../lib/template-config";
+import type { ResumeData as TemplateResumeData } from "../../lib/resume-data";
 
 
 function PageHeader({ mode, setMode }: { mode: 'preview' | 'ats'; setMode: (m: 'preview' | 'ats') => void }) {
@@ -25,7 +28,7 @@ function PageHeader({ mode, setMode }: { mode: 'preview' | 'ats'; setMode: (m: '
         <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight">Magic Builder</h1>
         <p className="text-white/60 mt-2">Build your resume in minutes with our AI-powered tools.</p>
       </div>
-      
+
       <div className="flex items-center gap-2 bg-[#0f162a] p-1.5 rounded-xl border border-white/10 self-start md:self-center">
         <SwitchButton active={mode === 'preview'} onClick={() => setMode('preview')}>Resume Preview</SwitchButton>
         <SwitchButton active={mode === 'ats'} onClick={() => setMode('ats')}>ATS Score</SwitchButton>
@@ -93,6 +96,38 @@ const emptyResume: ResumeData = {
   job: { title: "", company: "", location: "", description: "" },
   customSections: [],
 };
+
+// Convert builder ResumeData to template ResumeData format
+function convertToTemplateData(resume: ResumeData): TemplateResumeData {
+  return {
+    name: resume.name,
+    email: resume.email,
+    phone: resume.phone,
+    location: resume.location,
+    linkedin: resume.linkedin,
+    portfolio: resume.portfolio,
+    summary: resume.summary,
+    experiences: resume.experiences.map(exp => ({
+      role: exp.role,
+      company: exp.company,
+      location: exp.location || "",
+      startDate: exp.startDate || "",
+      endDate: exp.endDate || "",
+      bullets: exp.bullets
+    })),
+    education: resume.education.map(edu => ({
+      school: edu.school,
+      degree: edu.degree || "",
+      field: edu.field || "",
+      location: edu.location || "",
+      startDate: edu.startDate || "",
+      endDate: edu.endDate || ""
+    })),
+    skills: resume.skills.length > 0 ? [{ category: "Skills", skills: resume.skills }] : [],
+    projects: [],
+    customSections: resume.customSections
+  };
+}
 
 function Tabs({ active, onChange }: { active: TabKey; onChange: (t: TabKey) => void }) {
   const items: { key: TabKey; label: string }[] = [
@@ -421,35 +456,96 @@ function AIAssistantCard() {
         <div className="font-semibold">AI Assistant</div>
       </div>
       <p className="text-sm text-white/60 mt-2">Get personalized suggestions and generate content with AI.</p>
-      <a href="#ai-chat" className="mt-4 w-full rounded-lg border border-blue-500/30 bg-transparent px-4 py-2 text-sm text-blue-100 shadow-[0_0_10px_rgba(59,130,246,0.1)] transition-all hover:bg-blue-500/10 hover:border-blue-400 hover:shadow-[0_0_20px_rgba(59,130,246,0.3)] inline-flex items-center justify-center">Generate with Juno AI</a>
+      <a href="#ai-chat" className="mt-4 w-full rounded-lg border border-blue-500/30 bg-transparent px-4 py-2 text-sm text-blue-100 shadow-[0_0_10px_rgba(59,130,246,0.1)] transition-all hover:bg-blue-500/10 hover:border-blue-400 hover:shadow-[0_0_20px_rgba(59,130,246,0.3)] inline-flex items-center justify-center">Generate with Juno</a>
     </div>
   );
 }
 
-function ResumePreview({ mode }: { mode: 'preview' | 'ats' }) {
+// Live Resume Preview Component
+function LiveResumePreview({
+  mode,
+  resume,
+  selectedTemplate,
+  setSelectedTemplate,
+  onPreviewClick
+}: {
+  mode: 'preview' | 'ats';
+  resume: ResumeData;
+  selectedTemplate: TemplateId;
+  setSelectedTemplate: (t: TemplateId) => void;
+  onPreviewClick: () => void;
+}) {
+  const templateData = convertToTemplateData(resume);
+  const [templateDropdownOpen, setTemplateDropdownOpen] = useState(false);
+
+  const renderTemplate = () => {
+    const scale = 0.27;
+    const props = { data: templateData, scale };
+    switch (selectedTemplate) {
+      case 'modern':
+        return <ModernTemplate {...props} />;
+      case 'classic':
+        return <ClassicTemplate {...props} />;
+      case 'creative':
+        return <CreativeTemplate {...props} />;
+      case 'ats-friendly':
+        return <ATSFriendlyTemplate {...props} />;
+      default:
+        return <ModernTemplate {...props} />;
+    }
+  };
+
+  const currentConfig = templateConfigs.find(t => t.id === selectedTemplate);
+
   return (
     <div>
       <div className="font-semibold mb-4">{mode === 'preview' ? 'Resume Preview' : 'ATS Score'}</div>
 
       {mode === 'preview' ? (
-        <div className="rounded-2xl bg-[#0f162a] border border-white/10 p-6 flex items-center justify-center">
-          {/* Beige board background */}
-          <div className="w-[280px] h-[380px] rounded-xl bg-[#e9c5a6] shadow-inner flex items-center justify-center">
-            {/* Paper */}
-            <div className="w-[220px] h-[320px] bg-white rounded-sm shadow-xl">
-              <div className="p-4 space-y-2">
-                <div className="h-3 w-24 bg-black/70" />
-                <div className="h-2 w-36 bg-black/20" />
-                <div className="mt-4 space-y-2">
-                  {Array.from({ length: 6 }).map((_, i) => (
-                    <div key={i} className="h-2 w-full bg-black/10" />
-                  ))}
+        <div className="space-y-4">
+          {/* Template Selector */}
+          <div className="relative">
+            <button
+              onClick={() => setTemplateDropdownOpen(!templateDropdownOpen)}
+              className="w-full flex items-center justify-between px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm hover:bg-white/10 transition"
+            >
+              <span>{currentConfig?.name || 'Modern'} Template</span>
+              <ChevronDown className={`w-4 h-4 transition-transform ${templateDropdownOpen ? 'rotate-180' : ''}`} />
+            </button>
+            {templateDropdownOpen && (
+              <div className="absolute top-full left-0 right-0 mt-1 bg-[#0f162a] border border-white/10 rounded-lg overflow-hidden z-10">
+                {templateConfigs.map(t => (
+                  <button
+                    key={t.id}
+                    onClick={() => {
+                      setSelectedTemplate(t.id);
+                      setTemplateDropdownOpen(false);
+                    }}
+                    className={`w-full px-3 py-2 text-left text-sm hover:bg-white/10 transition ${selectedTemplate === t.id ? 'bg-white/5 text-blue-400' : ''}`}
+                  >
+                    {t.name}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Preview Card - Clickable */}
+          <div
+            onClick={onPreviewClick}
+            className="rounded-2xl bg-[#0f162a] border border-white/10 p-4 cursor-pointer hover:border-white/20 transition group"
+          >
+            {/* Beige board background */}
+            <div className="w-full aspect-[4/5] rounded-xl bg-[#e9c5a6] shadow-inner flex items-center justify-center relative overflow-hidden">
+              {/* Live template preview */}
+              <div className="bg-white rounded-sm shadow-xl overflow-hidden" style={{ width: 220, height: 285 }}>
+                <div className="overflow-hidden" style={{ width: 220, height: 285 }}>
+                  {renderTemplate()}
                 </div>
-                <div className="mt-4 space-y-2">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <div key={i} className="h-2 w-11/12 bg-black/10" />
-                  ))}
-                </div>
+              </div>
+              {/* Hover overlay */}
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                <span className="text-white text-sm font-medium bg-black/50 px-3 py-1.5 rounded-full">Click to expand</span>
               </div>
             </div>
           </div>
@@ -458,7 +554,7 @@ function ResumePreview({ mode }: { mode: 'preview' | 'ats' }) {
         <div className="rounded-2xl bg-[#0f162a] border border-white/10 p-6 relative overflow-hidden group">
           {/* Background glow */}
           <div className="absolute top-0 right-0 -mt-12 -mr-12 w-48 h-48 bg-blue-500/10 blur-[60px] rounded-full pointer-events-none" />
-          
+
           <div className="flex items-center justify-between mb-8 relative z-10">
             <div>
               <div className="text-sm font-medium text-white/60">Overall ATS Score</div>
@@ -468,7 +564,7 @@ function ResumePreview({ mode }: { mode: 'preview' | 'ats' }) {
                  <span>Excellent Score</span>
               </div>
             </div>
-            
+
             {/* Circular Progress */}
             <div className="relative size-24">
                <svg className="size-full -rotate-90">
@@ -508,10 +604,10 @@ function ResumePreview({ mode }: { mode: 'preview' | 'ats' }) {
             </h4>
             <div className="space-y-3">
               {[
-                "Add keyword “Agile” in Experience section",
-                "Consider a dedicated “Skills” header for better parsing",
+                'Add keyword "Agile" in Experience section',
+                'Consider a dedicated "Skills" header for better parsing',
                 "Replace images/icons with plain text for ATS",
-                "Use consistent date format (e.g., Jan 2022 – Present)"
+                "Use consistent date format (e.g., Jan 2022 - Present)"
               ].map((tip, i) => (
                 <div key={i} className="flex gap-3 text-xs text-white/70 group/tip hover:text-white/90 transition-colors">
                   <div className="mt-1 size-1.5 rounded-full bg-amber-500/40 group-hover/tip:bg-amber-400 shrink-0" />
@@ -526,9 +622,109 @@ function ResumePreview({ mode }: { mode: 'preview' | 'ats' }) {
   );
 }
 
+// Full Preview Modal
+function PreviewModal({
+  isOpen,
+  onClose,
+  resume,
+  selectedTemplate,
+  setSelectedTemplate
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  resume: ResumeData;
+  selectedTemplate: TemplateId;
+  setSelectedTemplate: (t: TemplateId) => void;
+}) {
+  const previewRef = useRef<HTMLDivElement>(null);
+  const templateData = convertToTemplateData(resume);
+
+  const handleExport = async () => {
+    if (!previewRef.current) return;
+
+    const html2pdf = (await import('html2pdf.js')).default;
+    const element = previewRef.current.querySelector('.resume-content') as HTMLElement | null;
+    if (!element) return;
+
+    const opt = {
+      margin: 0,
+      filename: `${resume.name.replace(/\s+/g, '_') || 'Resume'}_Resume.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' as const }
+    };
+
+    html2pdf().set(opt).from(element).save();
+  };
+
+  const renderTemplate = () => {
+    const props = { data: templateData, scale: 1 };
+    switch (selectedTemplate) {
+      case 'modern':
+        return <ModernTemplate {...props} />;
+      case 'classic':
+        return <ClassicTemplate {...props} />;
+      case 'creative':
+        return <CreativeTemplate {...props} />;
+      case 'ats-friendly':
+        return <ATSFriendlyTemplate {...props} />;
+      default:
+        return <ModernTemplate {...props} />;
+    }
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+      <div className="bg-[#0b1220] rounded-2xl border border-white/10 max-w-[900px] w-full max-h-[90vh] overflow-hidden flex flex-col">
+        {/* Modal Header */}
+        <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
+          <div className="flex items-center gap-4">
+            <h2 className="text-lg font-semibold">Resume Preview</h2>
+            <select
+              value={selectedTemplate}
+              onChange={(e) => setSelectedTemplate(e.target.value as TemplateId)}
+              className="bg-white/10 border border-white/15 rounded-lg px-3 py-1.5 text-sm outline-none"
+            >
+              {templateConfigs.map(t => (
+                <option key={t.id} value={t.id} className="bg-[#0b1220]">{t.name}</option>
+              ))}
+            </select>
+          </div>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={handleExport}
+              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600 text-sm font-medium hover:bg-blue-700 transition"
+            >
+              <Download className="w-4 h-4" />
+              Export PDF
+            </button>
+            <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-lg transition">
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+
+        {/* Modal Content */}
+        <div ref={previewRef} className="flex-1 overflow-auto p-6 bg-gray-200">
+          <div className="resume-content mx-auto shadow-2xl" style={{ width: 816 }}>
+            {renderTemplate()}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function ResumeBuilderScreen() {
   const [activeTab, setActiveTab] = useState<TabKey>('personal');
   const [previewMode, setPreviewMode] = useState<'preview' | 'ats'>('preview');
+  const [selectedTemplate, setSelectedTemplate] = useState<TemplateId>(() => {
+    const saved = localStorage.getItem('selectedTemplate');
+    return (saved as TemplateId) || 'modern';
+  });
+  const [previewModalOpen, setPreviewModalOpen] = useState(false);
   const [resume, setResume] = useState<ResumeData>(() => {
     try {
       const raw = localStorage.getItem('resumeData');
@@ -568,6 +764,10 @@ export default function ResumeBuilderScreen() {
   useEffect(() => {
     try { localStorage.setItem('resumeData', JSON.stringify(resume)); } catch {}
   }, [resume]);
+
+  useEffect(() => {
+    try { localStorage.setItem('selectedTemplate', selectedTemplate); } catch {}
+  }, [selectedTemplate]);
 
   const order: TabKey[] = ['personal', 'experience', 'education', 'skills', 'summary', 'job', 'custom'];
   const goNext = () => {
@@ -615,16 +815,31 @@ export default function ResumeBuilderScreen() {
 
           <div className="mt-6 flex justify-between">
             <button className="rounded-lg border border-white/15 px-5 py-2 text-sm text-white/80 hover:bg-white/[0.06]" onClick={goPrev}>Back</button>
-            <button className="rounded-lg bg-[oklch(0.488_0.243_264.376)] px-5 py-2 text-sm text-white" onClick={goNext}>Save & Next</button>
+            <button className="rounded-lg bg-[oklch(0.488_0.243_264.376)] px-5 py-2 text-sm text-white" onClick={goNext}>Next</button>
           </div>
         </div>
 
         {/* Right side: assistant + preview */}
         <div className="space-y-8">
           <AIAssistantCard />
-          <ResumePreview mode={previewMode} />
+          <LiveResumePreview
+            mode={previewMode}
+            resume={resume}
+            selectedTemplate={selectedTemplate}
+            setSelectedTemplate={setSelectedTemplate}
+            onPreviewClick={() => setPreviewModalOpen(true)}
+          />
         </div>
       </PageWithSidebar>
+
+      {/* Preview Modal */}
+      <PreviewModal
+        isOpen={previewModalOpen}
+        onClose={() => setPreviewModalOpen(false)}
+        resume={resume}
+        selectedTemplate={selectedTemplate}
+        setSelectedTemplate={setSelectedTemplate}
+      />
 
       {/* Start choice modal */}
       {startModalOpen && (

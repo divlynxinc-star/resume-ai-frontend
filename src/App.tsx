@@ -5,6 +5,8 @@ import {
   Dashboard,
   ResumeBuilderScreen,
   TemplatesScreen,
+  TemplateEditorScreen,
+  TemplatePreviewScreen,
   TailoringScreen,
   PricingScreen,
   NotFound,
@@ -34,6 +36,8 @@ const routes: Record<string, ComponentType<any>> = {
   dashboard: Dashboard,
   resumes: ResumeBuilderScreen,
   templates: TemplatesScreen,
+  "template-editor": TemplateEditorScreen,
+  "template-preview": TemplatePreviewScreen,
   tailoring: TailoringScreen, // AI Tools
   pricing: PricingScreen,
   subscribe: SubscriptionScreen,
@@ -59,7 +63,9 @@ const routes: Record<string, ComponentType<any>> = {
 
 function getRoute(): string {
   const hash = window.location.hash.replace(/^#/, "");
-  return hash || "home";
+  // Strip query parameters from the hash route
+  const route = hash.split("?")[0];
+  return route || "home";
 }
 
 export default function App() {
